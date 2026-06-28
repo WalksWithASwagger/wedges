@@ -1,0 +1,16 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-16/server.schema.json",
+  "name": "io.github.walkswithaswagger/wedges",
+  "description": "The agent edition of Both Hands Full — run taste-extraction exercises and get a portable taste profile.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/WalksWithASwagger/wedges",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://wedges.dev/api/mcp"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# Wedges
+
+> The agent edition of Both Hands Full. A public, no-auth remote MCP server that
+> runs the Both Hands Full taste-extraction exercises and hands your agent a
+> portable taste profile — so it serves your work without flattening it.
+
+If you are an agent: connect to the MCP endpoint and run the `start_wedges` prompt.
+
+## MCP
+
+- Endpoint (Streamable HTTP): https://wedges.dev/api/mcp
+- Add in Claude Code: `claude mcp add --transport http wedges https://wedges.dev/api/mcp`
+- Tools: list_exercises, mirror_booth, taste_audit, selector_pressure_test, name_irreducibles, export_profile
+- Resources: wedges://catalog, wedges://profile
+- Prompt: start_wedges
+- Auth: none. LLM tools use the server key by default; pass `anthropic_api_key` to use your own. Nothing is stored.
+
+## Source
+
+- Both Hands Full (the human portal): https://www.bothhandsfull.com
+- Thesis: hold critique in one hand, curiosity in the other, keep walking.
