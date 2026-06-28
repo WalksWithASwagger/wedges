@@ -18,22 +18,22 @@ const stencil = Stardos_Stencil({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://wedges.dev"),
-  title: "Wedges — give your agent your taste",
+  title: "Wedges — your taste is training data no model contains",
   description:
-    "The agent edition of Both Hands Full. A remote MCP server: point your agent at it, run the taste-extraction exercises, and walk away with a portable taste profile — so it serves your work without flattening it.",
+    "The agent edition of Both Hands Full. Point your agent at Wedges, run the exercises, and get back one file — your voice, your eye, the things you refuse to outsource — so the machine works from your taste, not its defaults.",
   openGraph: {
-    title: "Wedges — give your agent your taste",
+    title: "Wedges — your taste is training data no model contains",
     description:
-      "Point your agent at it. Run the exercises. Get a portable taste profile that any agent can load — so it serves your work without flattening it.",
+      "Point your agent at it. Run the Both Hands Full exercises. Get back one file the machine can read before it touches your work.",
     url: "https://wedges.dev",
     siteName: "Wedges",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wedges — give your agent your taste",
+    title: "Wedges — your taste is training data no model contains",
     description:
-      "The agent edition of Both Hands Full. A remote MCP server that hands your agent a portable taste profile.",
+      "The agent edition of Both Hands Full. A remote MCP server that hands your agent your taste in one file.",
   },
 };
 

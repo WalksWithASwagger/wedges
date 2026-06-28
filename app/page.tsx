@@ -54,19 +54,18 @@ export default function Home() {
       {/* ── hero ─────────────────────────────────────────────── */}
       <section className="pt-16 pb-20 sm:pt-24 sm:pb-28">
         <p className="kicker text-blood mb-6">A remote MCP server · the agent edition of Both Hands Full</p>
-        <h1 className="stencil text-paper text-[clamp(2.7rem,9vw,6.5rem)]">
-          Stop the machine
+        <h1 className="stencil text-paper text-[clamp(2.5rem,8vw,5.8rem)]">
+          Your taste is
           <br />
-          from sanding
+          training data
           <br />
-          <span className="text-blood">you</span> down.
+          <span className="text-blood">no model contains.</span>
         </h1>
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-paper/75">
-          Point your agent at Wedges. It runs the exercises Both Hands Full built for
-          humans — and hands you back a portable <span className="text-paper">taste profile</span>:
-          your voice patterns, your visual instincts, the things you refuse to outsource.
-          Load it into any agent and it serves <span className="text-paper">your</span> work,
-          not the model&rsquo;s defaults.
+          Point your agent at Wedges. It runs the Both Hands Full exercises, then hands
+          back <span className="text-paper">one file</span> — your voice, your eye, the
+          things you refuse to outsource — so the machine works from{" "}
+          <span className="text-paper">your taste</span>, not its defaults.
         </p>
 
         <div className="mt-10 max-w-2xl">
