@@ -211,6 +211,32 @@ export function findSelectorChoice(roundId: string, choiceId: string) {
   return { round, choice };
 }
 
+/** The rounds in a form an agent can present to the user — no scoring tags. */
+export function presentableRounds() {
+  return {
+    declaredTags: SELECTOR_TAGS.map((t) => ({ id: t.id, label: t.label, description: t.description })),
+    rounds: SELECTOR_ROUNDS.map((r) => ({
+      roundId: r.id,
+      kicker: r.kicker,
+      prompt: r.prompt,
+      brief: r.brief,
+      choices: r.choices.map((c) => ({
+        choiceId: c.id,
+        title: c.title,
+        output: c.output,
+        texture: c.texture,
+      })),
+    })),
+  };
+}
+
+/** roundId/choiceId pairs that don't exist — so the tool can reject guesses. */
+export function unknownChoiceRefs(choices: { roundId: string; choiceId: string }[]): string[] {
+  return choices
+    .filter((c) => !findSelectorChoice(c.roundId, c.choiceId))
+    .map((c) => `${c.roundId}/${c.choiceId}`);
+}
+
 export function buildSelectorProfile(
   selections: SelectorSelection[],
   declaredTags: SelectorTagId[],

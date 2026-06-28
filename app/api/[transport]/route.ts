@@ -6,6 +6,8 @@ import { runTasteAudit, MAX_IMAGES } from "@/lib/exercises/taste-audit";
 import {
   SELECTOR_TAGS,
   buildSelectorProfile,
+  presentableRounds,
+  unknownChoiceRefs,
   type SelectorTagId,
 } from "@/lib/selector-pressure";
 import { KK_SEED_LIST, structureIrreducibles } from "@/lib/irreducibles";
@@ -41,17 +43,24 @@ const rateLimited = (retryAfterSeconds: number) => ({
 type Extra = { requestInfo?: { headers?: Record<string, string | string[] | undefined> } };
 
 const FLOW = [
-  "Wedges extracts a person's creative taste from the Both Hands Full exercises and hands it to you as a portable profile, so you serve their work without flattening it.",
+  "Wedges extracts a person's creative taste from the Both Hands Full exercises and hands it to you as a portable profile, so you serve their work without flattening it. Run the steps WITH the user — ask, collect their real answers, don't invent them. Skip any step they don't have input for.",
   "",
-  "Recommended flow:",
-  "1. `mirror_booth` — paste a paragraph in their voice; learn which specifics to preserve and which flatten.",
-  "2. `taste_audit` — pass up to 12 image URLs of their work; learn their visual patterns and anti-patterns. (Skip if no images.)",
-  "3. `selector_pressure_test` — walk them through the 10 rounds (read each via `list_exercises` data or your own framing), collect their picks, get a deterministic taste profile.",
-  "4. `name_irreducibles` — ask what they refuse to outsource (the things AI can't eat).",
-  "5. Interview them for the three documents — style guide, worldview, glossary — in your own words.",
-  "6. `export_profile` — pass everything you gathered; receive the portable taste profile (markdown + JSON). Save it as a file the user keeps.",
+  "1. mirror_booth — ask for a paragraph in their own voice; returns which specifics to preserve and which the machine would flatten.",
   "",
-  "LLM tools (mirror_booth, taste_audit) use the server's Anthropic key by default; pass `anthropic_api_key` to use the user's own. Nothing is stored server-side.",
+  "2. taste_audit — for images of their work, READ THE LOCAL FILES and pass them as base64 ({ data, mediaType }), not URLs (URLs usually fail — robots.txt / hotlink blocks). Up to 12. Skip if no images.",
+  "",
+  "3. selector_pressure_test — first call get_pressure_rounds, present each round's prompt + its choices to the user, collect which choiceId they'd ship per round (and optionally up to 3 declaredTags they think they select for), then pass the picks. Returns a deterministic taste profile.",
+  "",
+  "4. name_irreducibles — ask what they refuse to outsource: the things AI can't eat.",
+  "",
+  "5. The three documents — interview them, then pass as export_profile `documents`:",
+  "   • style guide: three sentences from their past work that sound most like them; three patterns they'd cut from someone else's work; a one-line tagline for their voice.",
+  "   • worldview: five things they believe about how good work gets made; three things they refuse to do even if asked; why these — what they'd lose without them.",
+  "   • glossary: words/phrases they use and what they mean; words/phrases they avoid and why.",
+  "",
+  "6. export_profile — pass everything you gathered; receive the portable taste profile (markdown + JSON). Save the markdown as a file the user keeps and can load into any agent.",
+  "",
+  "LLM tools (mirror_booth, taste_audit) use the server's Anthropic key by default; pass anthropic_api_key to use the user's own. Nothing is stored server-side.",
 ].join("\n");
 
 const handler = createMcpHandler(
@@ -104,6 +113,22 @@ const handler = createMcpHandler(
       }),
     );
 
+    server.registerResource(
+      "pressure-rounds",
+      "wedges://pressure-rounds",
+      {
+        title: "Selector Pressure rounds",
+        description:
+          "The 10 rounds (prompt + choices) to present to the user before selector_pressure_test.",
+        mimeType: "application/json",
+      },
+      async (uri) => ({
+        contents: [
+          { uri: uri.href, mimeType: "application/json", text: JSON.stringify(presentableRounds(), null, 2) },
+        ],
+      }),
+    );
+
     // ---- Tools ----
     server.registerTool(
       "list_exercises",
@@ -113,6 +138,17 @@ const handler = createMcpHandler(
         inputSchema: {},
       },
       async () => json(CATALOG),
+    );
+
+    server.registerTool(
+      "get_pressure_rounds",
+      {
+        title: "Get Pressure Rounds",
+        description:
+          "The 10 Selector Pressure rounds — each with its prompt and four choices (choiceId + title + the output text). Present these to the user, collect one choiceId per round, then call selector_pressure_test. Also returns the declaredTags vocabulary.",
+        inputSchema: {},
+      },
+      async () => json(presentableRounds()),
     );
 
     server.registerTool(
@@ -143,10 +179,17 @@ const handler = createMcpHandler(
       {
         title: "Taste Audit",
         description:
-          "Visual taste analysis. Pass 1–12 image URLs of the user's work; returns recurring themes, palette, composition, voice, and anti-patterns. Requires an Anthropic key (server env or anthropic_api_key arg).",
+          "Visual taste analysis of 1–12 images of the user's work; returns recurring themes, palette, composition, voice, and anti-patterns. PREFER base64: read the local image file and pass { data: <base64>, mediaType: 'image/jpeg' }. URLs are a fallback and often fail (Anthropic fetches them server-side; many hosts block it via robots.txt / hotlink protection). Requires an Anthropic key (server env or anthropic_api_key arg).",
         inputSchema: {
           images: z
-            .array(z.object({ url: z.string().min(1), alt: z.string().optional() }))
+            .array(
+              z.object({
+                data: z.string().optional(),
+                mediaType: z.string().optional(),
+                url: z.string().optional(),
+                alt: z.string().optional(),
+              }),
+            )
             .min(1)
             .max(MAX_IMAGES),
           notes: z.string().optional(),
@@ -169,7 +212,7 @@ const handler = createMcpHandler(
       {
         title: "Selector Pressure Test",
         description:
-          "Deterministic taste profile (no LLM). Pass the user's choices across the 10 rounds (roundId + choiceId + optional why) and optionally up to 3 declaredTags they think they select for. Returns chosen/rejected tag profile, consistency score, and contradictions.",
+          "Deterministic taste profile (no LLM). First call get_pressure_rounds for the valid roundId/choiceId values. Pass the user's choices (roundId + choiceId + optional why) and optionally up to 3 declaredTags. Returns chosen/rejected tag profile, consistency score, and contradictions.",
         inputSchema: {
           choices: z
             .array(
@@ -184,6 +227,18 @@ const handler = createMcpHandler(
         },
       },
       async ({ choices, declaredTags }) => {
+        const unknown = unknownChoiceRefs(choices);
+        if (unknown.length) {
+          return {
+            isError: true,
+            content: [
+              {
+                type: "text" as const,
+                text: `[invalid_input] Unknown round/choice ids: ${unknown.join(", ")}. Call get_pressure_rounds for the valid ids — don't guess.`,
+              },
+            ],
+          };
+        }
         const selections = choices.map((c) => ({
           roundId: c.roundId,
           choiceId: c.choiceId,

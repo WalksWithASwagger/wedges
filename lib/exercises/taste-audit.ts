@@ -31,8 +31,29 @@ export const TasteAuditResultSchema = z.object({
 
 export type TasteAuditResult = z.infer<typeof TasteAuditResultSchema>;
 
+/**
+ * An image to audit. Prefer `data` (base64): the agent reads the local file and
+ * inlines the bytes. URLs are a fallback and are unreliable — Anthropic fetches
+ * them server-side and many hosts block that (robots.txt, hotlink protection).
+ */
+export interface TasteImage {
+  data?: string;
+  mediaType?: string;
+  url?: string;
+  alt?: string;
+}
+
+function toImagePart(img: TasteImage): string {
+  if (img.data) {
+    if (img.data.startsWith("data:")) return img.data;
+    return `data:${img.mediaType || "image/png"};base64,${img.data}`;
+  }
+  if (img.url) return img.url;
+  throw new WedgesError("invalid_input", "Each image needs `data` (base64) or `url`.");
+}
+
 export async function runTasteAudit(input: {
-  images: { url: string; alt?: string }[];
+  images: TasteImage[];
   notes?: string;
   apiKey?: string;
 }): Promise<TasteAuditResult> {
@@ -60,7 +81,7 @@ export async function runTasteAudit(input: {
             ...(input.notes
               ? [{ type: "text" as const, text: `Optional brief: ${input.notes}` }]
               : []),
-            ...input.images.map((img) => ({ type: "image" as const, image: img.url })),
+            ...input.images.map((img) => ({ type: "image" as const, image: toImagePart(img) })),
           ],
         },
       ],

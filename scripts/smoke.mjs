@@ -46,6 +46,13 @@ const b = JSON.parse((await run()).content[0].text);
 assert(a.completedRounds === 3, `selector counted 3 rounds (got ${a.completedRounds})`);
 assert(JSON.stringify(a) === JSON.stringify(b), "selector profile is deterministic");
 
+// Pressure rounds are discoverable (so an agent can actually run the test).
+const rounds = JSON.parse((await client.callTool({ name: "get_pressure_rounds", arguments: {} })).content[0].text);
+assert(rounds.rounds.length === 10 && rounds.rounds[0].choices.length === 4, "get_pressure_rounds exposes 10 rounds × 4 choices");
+// Unknown ids are rejected, not silently empty.
+const badSel = await client.callTool({ name: "selector_pressure_test", arguments: { choices: [{ roundId: "poster-line", choiceId: "nope" }] } });
+assert(badSel.isError && badSel.content[0].text.includes("Unknown"), "selector_pressure_test rejects unknown ids");
+
 const irr = await client.callTool({
   name: "name_irreducibles",
   arguments: { items: ["Live music in a sweaty room"], whyTheseStay: "presence" },
