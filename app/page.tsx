@@ -257,6 +257,12 @@ moving toward risky, specific cuts.`}
           <a href="https://www.bothhandsfull.com" className="kicker text-paper/60 hover:text-blood">
             ↗ bothhandsfull.com
           </a>
+          <a href="https://www.punkrockai.com" className="kicker text-paper/60 hover:text-blood">
+            ↗ Punk Rock AI
+          </a>
+          <a href="https://kriskrug.co" className="kicker text-paper/60 hover:text-blood">
+            ↗ KrisKrüg.co
+          </a>
         </div>
 
         <p className="kicker mt-10 text-paper/35">
