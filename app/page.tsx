@@ -204,6 +204,27 @@ moving toward risky, specific cuts.`}
         </ol>
       </Reveal>
 
+      {/* ── film club ────────────────────────────────────────── */}
+      <Reveal className="border-t-2 border-paper/15 py-16 sm:py-20">
+        <p className="kicker text-paper/45">Then bring it to people</p>
+        <h2 className="stencil mt-3 text-paper text-[clamp(2rem,6vw,3.6rem)]">
+          Film Club.
+        </h2>
+        <p className="mt-5 max-w-2xl text-paper/70">
+          A profile is yours alone until you put it in a room. Start a Film Club, send the
+          link to a few people you trust, and drop one unfinished thing. Everyone reads
+          everyone&rsquo;s work <span className="text-paper">through their taste</span> — what
+          they&rsquo;d cut, where it goes generic, whether they&rsquo;d ship it.{" "}
+          <span className="text-paper">Real feedback, not polite feedback.</span>
+        </p>
+        <a
+          href="/club"
+          className="mt-8 inline-block kicker border-2 border-blood bg-blood px-6 py-3 text-paper hover:bg-ink"
+        >
+          Start a room ◣
+        </a>
+      </Reveal>
+
       {/* ── why / footer ─────────────────────────────────────── */}
       <footer className="border-t-2 border-paper/15 py-16 sm:py-20">
         <p className="stencil text-paper text-[clamp(1.5rem,4.5vw,2.6rem)] leading-tight">
@@ -227,6 +248,9 @@ moving toward risky, specific cuts.`}
           <a href="https://github.com/WalksWithASwagger/wedges" className="kicker text-paper/60 hover:text-blood">
             ↗ Source
           </a>
+          <a href="/club" className="kicker text-paper/60 hover:text-blood">
+            ↗ Film Club
+          </a>
           <a href="/llms.txt" className="kicker text-paper/60 hover:text-blood">
             ↗ llms.txt
           </a>
@@ -236,7 +260,7 @@ moving toward risky, specific cuts.`}
         </div>
 
         <p className="kicker mt-10 text-paper/35">
-          public · no auth · nothing stored · rate-limited · bring your own key
+          your profile stays yours · rooms are invite-only &amp; deletable · rate-limited · bring your own key
         </p>
       </footer>
     </main>
