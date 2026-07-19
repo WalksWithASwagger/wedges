@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { StartRoom } from "./StartRoom";
 
 export const metadata: Metadata = {
@@ -14,10 +15,10 @@ export default function ClubHub() {
   return (
     <main className="mx-auto w-full max-w-3xl px-5 sm:px-8">
       <header className="flex items-center justify-between border-b-2 border-paper/15 py-5">
-        <a href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <span aria-hidden className="text-blood text-2xl leading-none">◣</span>
           <span className="stencil text-paper text-xl">Wedges</span>
-        </a>
+        </Link>
         <span className="kicker text-paper/55">Film Club</span>
       </header>
 
@@ -63,9 +64,9 @@ export default function ClubHub() {
         </ol>
         <p className="mt-10 text-sm text-paper/55">
           Don&rsquo;t have a profile yet?{" "}
-          <a href="/" className="text-paper underline decoration-blood underline-offset-4 hover:text-blood">
+          <Link href="/" className="text-paper underline decoration-blood underline-offset-4 hover:text-blood">
             Run Wedges first
-          </a>{" "}
+          </Link>{" "}
           — point your agent at it and you&rsquo;ll get the file.
         </p>
       </section>
