@@ -69,6 +69,12 @@ docs/VISION.md               # the Film Club design brief
 ROADMAP.md                   # what's next
 ```
 
+## Environment
+
+`.env.schema` is the agent-readable contract. Keep values in ignored local
+files or Vercel, validate with `varlock load --agent --show-all`, and run
+secret-dependent commands through `varlock run --inject vars -- <command>`.
+
 ## Develop
 
 ```bash
