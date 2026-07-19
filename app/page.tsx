@@ -1,5 +1,43 @@
+import type { Metadata } from "next";
 import { Connect } from "./components/Connect";
 import { Reveal } from "./components/Reveal";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://wedges.dev/",
+  },
+};
+
+const STRUCTURED_DATA = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://wedges.dev/#website",
+    name: "Wedges",
+    url: "https://wedges.dev/",
+    description:
+      "The agent edition of Both Hands Full. A remote MCP server that hands your agent your taste in one file.",
+    inLanguage: "en",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": "https://wedges.dev/#software",
+    name: "Wedges",
+    url: "https://wedges.dev/",
+    description:
+      "A remote MCP server and browser application for running the Both Hands Full taste-extraction exercises.",
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Web",
+    isAccessibleForFree: true,
+    sameAs: "https://github.com/WalksWithASwagger/wedges",
+    isBasedOn: {
+      "@type": "CreativeWork",
+      name: "Both Hands Full",
+      url: "https://www.bothhandsfull.com/",
+    },
+  },
+];
 
 const EXERCISES = [
   {
@@ -37,6 +75,15 @@ const EXERCISES = [
 export default function Home() {
   return (
     <main className="mx-auto w-full max-w-5xl px-5 sm:px-8">
+      {STRUCTURED_DATA.map((document) => (
+        <script
+          key={document["@id"]}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(document).replace(/</g, "\\u003c"),
+          }}
+        />
+      ))}
       {/* ── masthead ─────────────────────────────────────────── */}
       <header className="flex items-center justify-between border-b-2 border-paper/15 py-5">
         <div className="flex items-center gap-3">
