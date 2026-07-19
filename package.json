@@ -9,6 +9,7 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "smoke": "node scripts/smoke.mjs",
+    "verify:search": "node scripts/search-smoke.mjs",
     "verify": "tsc --noEmit && node scripts/smoke.mjs"
   },
   "dependencies": {

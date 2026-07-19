@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Film Club — Wedges",
   description:
     "Find five people. Watch each other's work. Real feedback, not polite feedback — through each other's taste. A Wedges room.",
+  alternates: {
+    canonical: "https://wedges.dev/club",
+  },
 };
 
 export default function ClubHub() {
