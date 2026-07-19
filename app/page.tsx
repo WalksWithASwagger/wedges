@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Connect } from "./components/Connect";
 import { Reveal } from "./components/Reveal";
 
@@ -264,12 +265,12 @@ moving toward risky, specific cuts.`}
           they&rsquo;d cut, where it goes generic, whether they&rsquo;d ship it.{" "}
           <span className="text-paper">Real feedback, not polite feedback.</span>
         </p>
-        <a
+        <Link
           href="/club"
           className="mt-8 inline-block kicker border-2 border-blood bg-blood px-6 py-3 text-paper hover:bg-ink"
         >
           Start a room ◣
-        </a>
+        </Link>
       </Reveal>
 
       {/* ── why / footer ─────────────────────────────────────── */}
@@ -295,9 +296,9 @@ moving toward risky, specific cuts.`}
           <a href="https://github.com/WalksWithASwagger/wedges" className="kicker text-paper/60 hover:text-blood">
             ↗ Source
           </a>
-          <a href="/club" className="kicker text-paper/60 hover:text-blood">
+          <Link href="/club" className="kicker text-paper/60 hover:text-blood">
             ↗ Film Club
-          </a>
+          </Link>
           <a href="/llms.txt" className="kicker text-paper/60 hover:text-blood">
             ↗ llms.txt
           </a>

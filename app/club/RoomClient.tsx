@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type { PublicRoom, Submission } from "@/lib/club/types";
 
 type Joined = { memberId: string; name: string };
@@ -19,6 +20,8 @@ export function RoomClient({ code }: { code: string }) {
   const lsKey = `club_${code}`;
 
   useEffect(() => {
+    // The browser origin is unavailable during the server render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setShareUrl(`${window.location.origin}/club/${code}`);
   }, [code]);
 
@@ -34,6 +37,8 @@ export function RoomClient({ code }: { code: string }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(lsKey);
+      // Membership is persisted outside React and hydrates after mount.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (raw) setJoined(JSON.parse(raw));
     } catch {}
     load();
@@ -47,9 +52,9 @@ export function RoomClient({ code }: { code: string }) {
         <p className="kicker text-blood">Room not found</p>
         <h1 className="stencil text-paper text-4xl mt-3">This room is gone.</h1>
         <p className="mt-4 text-paper/70">It was deleted, or the code is wrong.</p>
-        <a href="/club" className="mt-6 inline-block kicker border-2 border-paper/30 px-4 py-2 text-paper hover:border-blood">
+        <Link href="/club" className="mt-6 inline-block kicker border-2 border-paper/30 px-4 py-2 text-paper hover:border-blood">
           ← Start a new room
-        </a>
+        </Link>
       </Shell>
     );
   }
@@ -104,7 +109,7 @@ export function RoomClient({ code }: { code: string }) {
       </div>
 
       <div className="mt-16 border-t-2 border-paper/15 pt-5 flex items-center justify-between">
-        <a href="/club" className="kicker text-paper/45 hover:text-blood">← Film Club</a>
+        <Link href="/club" className="kicker text-paper/45 hover:text-blood">← Film Club</Link>
         <button
           type="button"
           onClick={async () => {
