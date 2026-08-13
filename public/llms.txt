@@ -19,3 +19,16 @@ If you are an agent: connect to the MCP endpoint and run the `start_wedges` prom
 
 - Both Hands Full (the human portal): https://www.bothhandsfull.com
 - Thesis: hold critique in one hand, curiosity in the other, keep walking.
+
+## Creative AI Human Lab
+
+Wedges is part of Kris Krüg's Creative AI Human Lab, a linked set of public
+films, portals, music, and agent tools.
+
+- [KrisKrug.co Work](https://kriskrug.co/work/)
+- [Skywhale Airways](https://skywhaleairways.com/)
+- [Punk Rock AI](https://www.punkrockai.com/)
+- [Gorgeous Ghost](https://gorgeousghost.com/)
+- [Ghost Radio](https://ghost.radio.fm/)
+- [Too Weird to Die](https://www.bothhandsfull.com/album/too-weird-to-die)
+- [Ethos Lab Block Party](https://ethosblockparty.com/the-day)

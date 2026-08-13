@@ -302,16 +302,37 @@ moving toward risky, specific cuts.`}
           <a href="/llms.txt" className="kicker text-paper/60 hover:text-blood">
             ↗ llms.txt
           </a>
-          <a href="https://www.bothhandsfull.com" className="kicker text-paper/60 hover:text-blood">
-            ↗ bothhandsfull.com
-          </a>
-          <a href="https://www.punkrockai.com" className="kicker text-paper/60 hover:text-blood">
-            ↗ Punk Rock AI
-          </a>
-          <a href="https://kriskrug.co" className="kicker text-paper/60 hover:text-blood">
-            ↗ KrisKrüg.co
-          </a>
         </div>
+
+        <nav className="mt-10 border-t-2 border-paper/15 pt-7" aria-label="Creative AI Human Lab">
+          <p className="kicker mb-4 text-paper/45">Creative AI Human Lab</p>
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
+            <a href="https://kriskrug.co/work/" className="kicker text-paper/60 hover:text-blood">
+              ↗ KrisKrug.co Work
+            </a>
+            <a href="https://skywhaleairways.com/" className="kicker text-paper/60 hover:text-blood">
+              ↗ Skywhale Airways
+            </a>
+            <a href="https://www.punkrockai.com/" className="kicker text-paper/60 hover:text-blood">
+              ↗ Punk Rock AI
+            </a>
+            <a href="https://gorgeousghost.com/" className="kicker text-paper/60 hover:text-blood">
+              ↗ Gorgeous Ghost
+            </a>
+            <a href="https://ghost.radio.fm/" className="kicker text-paper/60 hover:text-blood">
+              ↗ Ghost Radio
+            </a>
+            <a href="https://wedges.dev/" className="kicker text-paper/60 hover:text-blood">
+              ↗ Wedges
+            </a>
+            <a href="https://www.bothhandsfull.com/album/too-weird-to-die" className="kicker text-paper/60 hover:text-blood">
+              ↗ Too Weird to Die
+            </a>
+            <a href="https://ethosblockparty.com/the-day" className="kicker text-paper/60 hover:text-blood">
+              ↗ Ethos Lab Block Party
+            </a>
+          </div>
+        </nav>
 
         <p className="kicker mt-10 text-paper/35">
           your profile stays yours · rooms are invite-only &amp; deletable · rate-limited · bring your own key
