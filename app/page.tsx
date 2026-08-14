@@ -310,6 +310,9 @@ moving toward risky, specific cuts.`}
             <a href="https://kriskrug.co/work/" className="kicker text-paper/60 hover:text-blood">
               ↗ KrisKrug.co Work
             </a>
+            <a href="https://kriskrug.ai/" className="kicker text-paper/60 hover:text-blood">
+              ↗ AI Garden
+            </a>
             <a href="https://skywhaleairways.com/" className="kicker text-paper/60 hover:text-blood">
               ↗ Skywhale Airways
             </a>
