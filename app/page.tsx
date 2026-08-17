@@ -334,6 +334,12 @@ moving toward risky, specific cuts.`}
             <a href="https://ethosblockparty.com/the-day" className="kicker text-paper/60 hover:text-blood">
               ↗ Ethos Lab Block Party
             </a>
+            <a href="https://darkcrystal.app/" className="kicker text-paper/60 hover:text-blood">
+              ↗ Dark Crystal
+            </a>
+            <a href="https://unofficial.city/" className="kicker text-paper/60 hover:text-blood">
+              ↗ unofficial.city
+            </a>
           </div>
         </nav>
 
