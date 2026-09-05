@@ -10,7 +10,9 @@
     "typecheck": "tsc --noEmit",
     "smoke": "node scripts/smoke.mjs",
     "verify:search": "node scripts/search-smoke.mjs",
-    "verify": "tsc --noEmit && node scripts/smoke.mjs"
+    "verify": "npm run typecheck && npm test && npm run smoke",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "eval:critique": "node --import tsx scripts/eval-critique.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.1",
@@ -31,6 +33,10 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
+    "tsx": "4.23.13",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

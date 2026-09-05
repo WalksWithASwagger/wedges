@@ -59,7 +59,7 @@ export function classifyUpstreamError(err: unknown): WedgesError {
     if (status === 413 || OVERSIZED_PATTERN.test(text)) return new WedgesError("oversized");
     if (status != null && status >= 500) return new WedgesError("model_error");
     if (status == null && NETWORK_PATTERN.test(text)) return new WedgesError("network");
-    return new WedgesError("model_error", err.message);
+    return new WedgesError("model_error");
   }
 
   if (err instanceof Error) {
@@ -68,7 +68,7 @@ export function classifyUpstreamError(err: unknown): WedgesError {
     if (NETWORK_PATTERN.test(text)) return new WedgesError("network");
     if (OVERSIZED_PATTERN.test(text)) return new WedgesError("oversized");
     if (KEY_PATTERN.test(text)) return new WedgesError("invalid_key");
-    return new WedgesError("unknown", text);
+    return new WedgesError("unknown");
   }
 
   return new WedgesError("unknown");
