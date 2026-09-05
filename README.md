@@ -8,10 +8,20 @@ Both Hands Full is a set of exercises that help *humans* protect their taste, vo
 
 It has two halves:
 
-1. **Solo** — a public remote **MCP server**. Run the exercises, get your taste profile, then use it to critique a draft and record your own creative decisions.
+1. **Solo** — a browser review workspace and public remote **MCP server**. Review a draft directly, or run the exercises through your agent and keep a portable taste profile.
 2. **Together** — **Film Club**, shared crit rooms where a few people drop work and read each other's through their taste profiles. Real feedback, not polite feedback.
 
 ---
+
+## Review in the browser
+
+Open `/review`. Paste a draft and a taste profile, import a Markdown/text profile, or write a few relevant preferences. Add an optional question and explicitly request critique. The browser calls the existing `/api/mcp` tool using the shared server key; there is no browser key entry or new model endpoint.
+
+Inspect up to three suggestions with exact work and taste quotations. Mark each **accept, reject, modify, or pending** and optionally write your own reason. Edit a separate working revision yourself: accepting advice never applies an edit, and the original source snapshot stays fixed. Insufficient evidence is a valid result. You can also export a draft record without requesting critique.
+
+**This tab only, no autosave.** Export JSON to keep and reopen the review; export Markdown for a readable note. Files include the original draft, taste, question, working revision, suggestions, and author decisions. Imports are versioned, validated, and limited to 512 KB; importing does not call a model. Imported attribution is supplied by the file, not verified authorship. Existing taste profiles and MCP tools remain compatible. The revision limit is 8,000 characters and each optional reason is limited to 2,000; over-limit text stays intact until you shorten it for export.
+
+Submitting sends the chosen sources to Anthropic; Wedges does not persist solo review content. Local exports may contain unpublished work. See [browser verification and limitations](docs/browser-review.md).
 
 ## Solo: the MCP server
 
@@ -71,7 +81,11 @@ app/
   page.tsx                   # landing (xerox-punk)
   opengraph-image.tsx        # branded OG card
   club/                      # Film Club hub + room UI
+  review/                    # browser review, author decisions, manual revision
 lib/
+  critique-contract.ts       # browser-safe critique schema and evidence checks
+  review-client.ts           # browser MCP adapter (loaded on submission)
+  review-record.ts           # versioned review import/export
   exercises/                 # mirror-booth, taste-audit, solo critique (UI-free)
   selector-pressure.ts       # deterministic taste scoring + rounds
   profile.ts                 # taste-profile.md assembly

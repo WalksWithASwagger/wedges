@@ -1,26 +1,10 @@
 import { generateObject, NoObjectGeneratedError } from "ai";
-import { z } from "zod";
+import type { z } from "zod";
 import { resolveProvider, DEFAULT_MODEL } from "@/lib/anthropic";
 import { WedgesError, classifyUpstreamError } from "@/lib/errors";
+import { CritiqueInputSchema, CritiqueResultSchema, hasValidEvidence, INTERPRETATION } from "@/lib/critique-contract";
 
-const nonblank = (max: number) => z.string().max(max).refine((s) => s.trim().length > 0, "Must not be blank");
-
-export const CritiqueInputSchema = z.object({
-  profileMarkdown: nonblank(20_000),
-  work: nonblank(8_000),
-  question: z.string().max(500).optional(),
-});
-
-export const CritiqueResultSchema = z.object({
-  status: z.enum(["suggestions", "insufficient_evidence"]),
-  explanation: nonblank(600),
-  suggestions: z.array(z.object({
-    workQuote: nonblank(1_000),
-    profileQuote: nonblank(1_000),
-    suggestion: nonblank(600),
-    reason: nonblank(600),
-  }).strict()).max(3),
-}).strict();
+export { CritiqueInputSchema, CritiqueResultSchema } from "@/lib/critique-contract";
 
 export async function runCritique(input: z.infer<typeof CritiqueInputSchema> & { apiKey?: string }) {
   const parsed = CritiqueInputSchema.safeParse(input);
@@ -55,16 +39,10 @@ export async function runCritique(input: z.infer<typeof CritiqueInputSchema> & {
     });
 
     // Exact citations are a verifiable floor; semantic fit still needs the author.
-    const validStatus = object.status === "suggestions"
-      ? object.suggestions.length > 0
-      : object.suggestions.length === 0;
-    const validQuotes = object.suggestions.every((s) =>
-      parsed.data.work.includes(s.workQuote) && parsed.data.profileMarkdown.includes(s.profileQuote),
-    );
-    if (!validStatus || !validQuotes) {
+    if (!hasValidEvidence(object, parsed.data)) {
       throw new WedgesError("model_error", "The model did not provide valid source evidence. No suggestions returned. Try again or clarify the profile and draft.");
     }
-    return { interpretation: "AI-generated interpretation; the author decides.", ...object };
+    return { interpretation: INTERPRETATION, ...object };
   } catch (err) {
     if (NoObjectGeneratedError.isInstance(err)) {
       throw new WedgesError("model_error", "The model did not return a complete, valid critique. No suggestions returned. Try again.");

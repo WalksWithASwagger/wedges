@@ -101,7 +101,7 @@ export default function Home() {
 
       {/* ── hero ─────────────────────────────────────────────── */}
       <section className="pt-16 pb-20 sm:pt-24 sm:pb-28">
-        <p className="kicker text-blood mb-6">A remote MCP server · the agent edition of Both Hands Full</p>
+        <p className="kicker text-blood mb-6">A creative review workspace · from Both Hands Full</p>
         <h1 className="stencil text-paper text-[clamp(2.5rem,8vw,5.8rem)]">
           Your taste is
           <br />
@@ -110,11 +110,16 @@ export default function Home() {
           <span className="text-blood">no model contains.</span>
         </h1>
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-paper/75">
-          Point your agent at Wedges. It runs the Both Hands Full exercises, then hands
-          back <span className="text-paper">one file</span> — your voice, your eye, the
-          things you refuse to outsource — so the machine works from{" "}
-          <span className="text-paper">your taste</span>, not its defaults.
+          Bring a draft and the taste you want to protect. Inspect cited suggestions,
+          make your own edits, and keep a record of <span className="text-paper">your decisions</span>.
+          Or run the Both Hands Full exercises through your agent and take your voice,
+          your eye, and the things you refuse to outsource with you in <span className="text-paper">one file</span>.
         </p>
+
+        <div className="mt-8 flex flex-wrap items-center gap-5">
+          <a href="/review" className="border-b-4 border-blood bg-paper px-6 py-4 font-bold text-ink hover:bg-ash hover:text-paper">Review your work ◣</a>
+          <span className="text-sm text-paper/75">Your draft. Your taste. Your decision. No agent setup required.</span>
+        </div>
 
         <div className="mt-10 max-w-2xl">
           <div className="flex items-stretch gap-3 border-l-2 border-blood bg-black/30 px-4 py-3">
@@ -229,7 +234,7 @@ moving toward risky, specific cuts.`}
           comes back to you. Use the shared key, or bring your own Anthropic key for more
           depth.
         </p>
-        <Connect />
+        <div id="connect"><Connect /></div>
       </Reveal>
 
       {/* ── exercises ────────────────────────────────────────── */}

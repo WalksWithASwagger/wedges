@@ -1,11 +1,12 @@
 # Wedges — roadmap
 
-Honest state and what's next. Updated 2026-06-28.
+Browser review status updated 2026-09-04. Older roadmap entries below remain proposals and may need revalidation.
 
 ## In review (not deployed)
-- **Solo critique and author decision note** ([#9](https://github.com/WalksWithASwagger/wedges/issues/9)): `critique` cites the chosen draft and profile; `review_draft` asks the author to accept, reject, or modify suggestions and returns a portable note. Includes input/model limits, safe errors, removal of the shared last-profile resource, deterministic regression checks, and opt-in synthetic evals. Human validation of decision value remains a separate step; see `docs/critique-evals.md`. The roadmap below is unchanged by this slice.
+- **Browser review and portable author decisions** ([#11](https://github.com/WalksWithASwagger/wedges/issues/11)): direct `/review` workflow, cited suggestions, manual revision, explicit author decisions, Markdown export and versioned JSON reopening. Session-only state; no Film Club changes or model migration. See `docs/browser-review.md` for verification and the remaining human pilot. Automatic Git deployments of `codex/browser-review` are disabled during review.
 
 ## Shipped (live on wedges.dev)
+- **Solo critique and author decision note** ([#9](https://github.com/WalksWithASwagger/wedges/issues/9), [#10](https://github.com/WalksWithASwagger/wedges/pull/10)): bounded, cited `critique` and the `review_draft` prompt; author choices remain explicit. Merged 2026-09-04 (Vancouver). See `docs/critique-evals.md` for dated validation and its limits.
 - **Solo MCP server** (`/api/mcp`) — the exercises, dogfooded end-to-end; output verified genuinely good (Mirror Booth + the exported profile are sharp, not filler).
 - **Landing page** — xerox-punk identity, voice-true copy (Kris's keynote lines), branded OG card.
 - **Hardening** — in-code rate limits on the LLM tools + a Vercel Firewall rule on `/api/mcp`; `wedges.dev` with TLS.

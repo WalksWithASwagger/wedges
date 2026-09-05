@@ -12,6 +12,7 @@
     "verify:search": "node scripts/search-smoke.mjs",
     "verify": "npm run typecheck && npm test && npm run smoke",
     "test": "node --import tsx --test tests/*.test.ts",
+    "test:browser": "playwright test",
     "eval:critique": "node --import tsx scripts/eval-critique.ts"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
