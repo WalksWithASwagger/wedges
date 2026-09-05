@@ -2,6 +2,9 @@
 
 Honest state and what's next. Updated 2026-06-28.
 
+## In review (not deployed)
+- **Solo critique and author decision note** ([#9](https://github.com/WalksWithASwagger/wedges/issues/9)): `critique` cites the chosen draft and profile; `review_draft` asks the author to accept, reject, or modify suggestions and returns a portable note. Includes input/model limits, safe errors, removal of the shared last-profile resource, deterministic regression checks, and opt-in synthetic evals. Human validation of decision value remains a separate step; see `docs/critique-evals.md`. The roadmap below is unchanged by this slice.
+
 ## Shipped (live on wedges.dev)
 - **Solo MCP server** (`/api/mcp`) — the exercises, dogfooded end-to-end; output verified genuinely good (Mirror Booth + the exported profile are sharp, not filler).
 - **Landing page** — xerox-punk identity, voice-true copy (Kris's keynote lines), branded OG card.
