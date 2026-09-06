@@ -264,11 +264,9 @@ moving toward risky, specific cuts.`}
           Film Club.
         </h2>
         <p className="mt-5 max-w-2xl text-paper/70">
-          A profile is yours alone until you put it in a room. Start a Film Club, send the
-          link to a few people you trust, and drop one unfinished thing. Everyone reads
-          everyone&rsquo;s work <span className="text-paper">through their taste</span> — what
-          they&rsquo;d cut, where it goes generic, whether they&rsquo;d ship it.{" "}
-          <span className="text-paper">Real feedback, not polite feedback.</span>
+          Start a Film Club, send the link to a few people you trust, and drop one
+          unfinished thing. Posting saves work for others to read, without generating
+          AI feedback. Human comments are not available yet — discuss the work outside Wedges.
         </p>
         <Link
           href="/club"
