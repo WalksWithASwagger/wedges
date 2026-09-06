@@ -2,14 +2,10 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getStore, newId } from "@/lib/club/store";
 import { memberCookie } from "@/lib/club/cookies";
-import { runCritique } from "@/lib/club/critique";
 import { checkRateLimit } from "@/lib/rate-limit";
-import type { Critique, Submission } from "@/lib/club/types";
+import type { Submission } from "@/lib/club/types";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
-
-const MAX_REVIEWERS = 8; // bound LLM cost per submission
 
 export async function POST(req: Request, { params }: { params: Promise<{ code: string }> }) {
   const { code } = await params;
@@ -18,6 +14,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ code: s
   const work = (typeof body?.body === "string" ? body.body : "").trim();
   if (work.length < 1) {
     return NextResponse.json({ error: "invalid_input", message: "Drop some work first." }, { status: 400 });
+  }
+
+  if (work.length > 8000) {
+    return NextResponse.json({ error: "invalid_input", message: "Keep work to 8,000 characters or fewer. Your draft has not been posted." }, { status: 400 });
   }
 
   const store = getStore();
@@ -43,33 +43,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ code: s
     memberId: author.id,
     authorName: author.name,
     title,
-    body: work.slice(0, 8000),
+    body: work,
     createdAt: Date.now(),
     critiques: [],
   };
-
-  const reviewers = room.members
-    .filter((m) => m.id !== author.id && m.profileMarkdown.trim().length > 0)
-    .slice(0, MAX_REVIEWERS);
-
-  const critiques = (
-    await Promise.all(
-      reviewers.map(async (r): Promise<Critique | null> => {
-        try {
-          const cr = await runCritique({
-            reviewerName: r.name,
-            reviewerProfile: r.profileMarkdown,
-            work: { title: submission.title, body: submission.body },
-          });
-          return { fromMemberId: r.id, fromName: r.name, text: cr.text, wouldShip: cr.wouldShip, createdAt: Date.now() };
-        } catch {
-          return null;
-        }
-      }),
-    )
-  ).filter((x): x is Critique => x !== null);
-
-  submission.critiques = critiques;
 
   // Re-read to reduce clobbering concurrent joins/submits, then append.
   const fresh = (await store.get(code)) ?? room;

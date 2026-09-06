@@ -9,7 +9,7 @@ Both Hands Full is a set of exercises that help *humans* protect their taste, vo
 It has two halves:
 
 1. **Solo** — a browser review workspace and public remote **MCP server**. Review a draft directly, or run the exercises through your agent and keep a portable taste profile.
-2. **Together** — **Film Club**, shared crit rooms where a few people drop work and read each other's through their taste profiles. Real feedback, not polite feedback.
+2. **Together** — **Film Club**, shared rooms where a few people post unfinished work. No automatic AI feedback; human comments are not available yet.
 
 ---
 
@@ -66,10 +66,11 @@ The agent returns a copyable Markdown decision note with the cited suggestions, 
 
 ## Together: Film Club
 
-`wedges.dev/club` — start a room, send the link to a few people, everyone joins with a display name + their `taste-profile.md`. Drop one unfinished thing; the room generates a critique from **each other member's taste lens** (server-side) — what they'd cut, where it goes generic, whether they'd ship it.
+`wedges.dev/club` — start a room and share unfinished text work. Join with a display name; a stored taste profile is optional. Posting makes zero model calls. Historical generated feedback remains visible as **Legacy AI-generated feedback**, with names identifying only the supplied profile lens. Human commenting is not available yet.
 
-- **Identity:** share-link + display name, cookies, no accounts.
-- **Storage:** rooms persist until deleted (Upstash Redis in prod; in-memory in dev). Your profile is yours, rooms are invite-only and deletable.
+- **Identity:** share-link + display name, cookies, no accounts. Anyone with a room code/link can read; this is not private membership-gated access.
+- **Storage:** rooms persist until deleted (Upstash Redis in prod; in-memory in dev). The creator can delete a room.
+- **Limits and verification:** see [Film Club behavior](docs/film-club.md).
 - In production the club is gated behind the store being configured (`isStoreConfigured()`), so it stays dark until a Redis is connected.
 
 ## Repo map
@@ -90,7 +91,7 @@ lib/
   selector-pressure.ts       # deterministic taste scoring + rounds
   profile.ts                 # taste-profile.md assembly
   anthropic.ts, errors.ts, rate-limit.ts
-  club/                      # store, types, critique core, cookies
+  club/                      # store, types, cookies
 docs/VISION.md               # the Film Club design brief
 ROADMAP.md                   # what's next
 ```

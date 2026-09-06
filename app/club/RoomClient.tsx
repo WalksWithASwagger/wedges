@@ -6,11 +6,10 @@ import type { PublicRoom, Submission } from "@/lib/club/types";
 
 type Joined = { memberId: string; name: string };
 
-const SHIP_LABEL: Record<string, string> = { ship: "would ship", hold: "hold", cut: "cut it" };
-
 export function RoomClient({ code }: { code: string }) {
   const [room, setRoom] = useState<PublicRoom | null>(null);
   const [missing, setMissing] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const [joined, setJoined] = useState<Joined | null>(null);
   const [copied, setCopied] = useState(false);
   // Server and first client render must match — start with the path, fill the
@@ -26,12 +25,13 @@ export function RoomClient({ code }: { code: string }) {
   }, [code]);
 
   const load = useCallback(async () => {
-    const res = await fetch(`/api/club/rooms/${code}`, { cache: "no-store" });
-    if (res.status === 404) {
-      setMissing(true);
-      return;
-    }
-    if (res.ok) setRoom(await res.json());
+    try {
+      const res = await fetch(`/api/club/rooms/${code}`, { cache: "no-store" });
+      if (res.status === 404) { setMissing(true); return; }
+      if (!res.ok) { setLoadError(true); return; }
+      setRoom(await res.json());
+      setLoadError(false);
+    } catch { setLoadError(true); }
   }, [code]);
 
   useEffect(() => {
@@ -83,6 +83,9 @@ export function RoomClient({ code }: { code: string }) {
         </div>
       </div>
 
+      {loadError && <p role="alert" className="mt-5 text-blood">Couldn&rsquo;t refresh the room. <button type="button" onClick={load} className="underline">Try again</button></p>}
+      {!room && !loadError && <p role="status" className="mt-5 text-paper/60">Loading room…</p>}
+
       {/* members */}
       <div className="mt-5 flex flex-wrap gap-2">
         {(room?.members ?? []).map((m) => (
@@ -95,11 +98,11 @@ export function RoomClient({ code }: { code: string }) {
       </div>
 
       {/* join or compose */}
-      {iAmMember ? (
+      {room && (iAmMember ? (
         <Composer code={code} onPosted={load} />
       ) : (
         <JoinPanel code={code} onJoined={(j) => { setJoined(j); localStorage.setItem(lsKey, JSON.stringify(j)); load(); }} />
-      )}
+      ))}
 
       {/* submissions */}
       <div className="mt-12 space-y-8">
@@ -151,8 +154,8 @@ function JoinPanel({ code, onJoined }: { code: string; onJoined: (j: Joined) => 
         />
       </label>
       <label className="block">
-        <span className="text-sm text-paper/60">Your taste profile</span>
-        <span className="block text-xs text-paper/40 mb-1">Paste your taste-profile.md from Wedges — it&rsquo;s the lens the room reads others&rsquo; work through.</span>
+        <span className="text-sm text-paper/60">Your taste profile (optional)</span>
+        <span className="block text-xs text-paper/40 mb-1">Profiles are optional and stored with the room. Posting work does not generate feedback.</span>
         <textarea
           value={profile}
           onChange={(e) => setProfile(e.target.value)}
@@ -177,7 +180,7 @@ function JoinPanel({ code, onJoined }: { code: string; onJoined: (j: Joined) => 
         />
       </div>
 
-      {err && <p className="mt-3 text-sm text-blood">{err}</p>}
+      {err && <p role="alert" className="mt-3 text-sm text-blood">{err}</p>}
       <button
         type="button"
         disabled={busy || !name.trim()}
@@ -198,7 +201,7 @@ function JoinPanel({ code, onJoined }: { code: string; onJoined: (j: Joined) => 
       </button>
       {!profile.trim() && (
         <p className="mt-3 text-xs text-paper/40">
-          No profile? You can still join and watch — but you won&rsquo;t be able to critique others, and they&rsquo;ll have nothing to read your work through.
+          No profile needed to join, read or post work. Human comments are not available yet.
         </p>
       )}
     </section>
@@ -217,37 +220,48 @@ function Composer({ code, onPosted }: { code: string; onPosted: () => void }) {
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        aria-label="Title (optional)"
+        disabled={busy}
         placeholder="title (optional)"
         className="w-full bg-paper/5 border-2 border-paper/20 focus:border-blood text-paper p-2 outline-none mb-3"
       />
       <textarea
         value={body}
         onChange={(e) => setBody(e.target.value)}
+        aria-label="Work"
+        disabled={busy}
         rows={7}
         placeholder="Paste the thing you're working on. A paragraph, a scene, a pitch. The rougher the better."
         className="w-full bg-paper/5 border-2 border-paper/20 focus:border-blood text-paper p-3 outline-none font-typewriter text-sm resize-y"
       />
-      {err && <p className="mt-3 text-sm text-blood">{err}</p>}
+      {err && <p role="alert" className="mt-3 text-sm text-blood">{err}</p>}
       <button
         type="button"
         disabled={busy || !body.trim()}
         onClick={async () => {
           setBusy(true); setErr("");
-          const res = await fetch(`/api/club/rooms/${code}/submit`, {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ title, body }),
-          });
-          const data = await res.json();
-          if (res.ok) { setTitle(""); setBody(""); onPosted(); }
-          else setErr(data.message || "Couldn't post.");
-          setBusy(false);
+          try {
+            const res = await fetch(`/api/club/rooms/${code}/submit`, {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ title, body }),
+            });
+            if (res.ok) { setTitle(""); setBody(""); onPosted(); }
+            else {
+              const data = await res.json().catch(() => ({}));
+              setErr(data.message || "Couldn't post. Your draft is still here; try again.");
+            }
+          } catch {
+            setErr("Couldn't confirm the post. Your draft is still here. Check the room before trying again to avoid a duplicate.");
+          } finally {
+            setBusy(false);
+          }
         }}
         className="mt-4 kicker border-2 border-blood bg-blood px-5 py-2.5 text-paper hover:bg-ink disabled:opacity-50"
       >
-        {busy ? "getting read…" : "Drop it ◣"}
+        {busy ? "posting…" : "Drop it ◣"}
       </button>
-      <p className="mt-3 text-xs text-paper/40">Every other member with a profile will read it through their taste. Takes a few seconds.</p>
+      <p className="mt-3 text-xs text-paper/40">Posting saves your work for the room to read. No automatic AI feedback or notifications. Human comments are not available yet.</p>
     </section>
   );
 }
@@ -262,24 +276,12 @@ function SubmissionCard({ s }: { s: Submission }) {
       </div>
       <div className="divide-y-2 divide-paper/10">
         {s.critiques.length === 0 && (
-          <p className="p-4 text-sm text-paper/45">No critiques yet — no other members had a profile to read it through.</p>
+          <p className="p-4 text-sm text-paper/45">Shared for the room to read. Human comments are not available yet; discuss feedback outside Wedges.</p>
         )}
         {s.critiques.map((cr, i) => (
           <div key={i} className="p-4">
-            <div className="flex items-center justify-between gap-3 mb-2">
-              <p className="kicker text-blood">{cr.fromName}</p>
-              <span
-                className={`kicker px-2 py-0.5 border-2 ${
-                  cr.wouldShip === "cut"
-                    ? "border-blood text-blood"
-                    : cr.wouldShip === "ship"
-                    ? "border-paper/40 bg-paper text-ink"
-                    : "border-paper/25 text-paper/55"
-                }`}
-              >
-                {SHIP_LABEL[cr.wouldShip] ?? cr.wouldShip}
-              </span>
-            </div>
+            <p className="kicker text-blood mb-2">Legacy AI-generated feedback</p>
+            <p className="text-sm text-paper/60 mb-3">Generated through the profile supplied for {cr.fromName}. This is an AI interpretation, not feedback or an endorsement from that person.</p>
             <p className="whitespace-pre-wrap text-paper/85 leading-relaxed">{cr.text}</p>
           </div>
         ))}
