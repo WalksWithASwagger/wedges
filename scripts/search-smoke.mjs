@@ -70,7 +70,7 @@ assert(
 
 const { body: reviewHtml } = await get("/review");
 assert(JSON.stringify(canonicalUrls(reviewHtml)) === JSON.stringify(["https://wedges.dev/review"]), "browser review has one canonical URL");
-assert(reviewHtml.includes("Get cited critique") && reviewHtml.includes("No autosave"), "browser review exposes the action and session-only boundary");
+assert(reviewHtml.includes("Get cited critique") && reviewHtml.includes("Browser-local work"), "browser review exposes the action and browser-local persistence boundary");
 assert(homeHtml.includes('href="/review"'), "homepage links directly to browser review");
 
 const { body: roomHtml } = await get("/club/example-room");
