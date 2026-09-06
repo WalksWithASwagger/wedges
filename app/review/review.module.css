@@ -64,3 +64,12 @@
   .workspace textarea.draft { min-height: 18rem; }
 }
 @media (prefers-reduced-motion: reduce) { .workspace .button { transition: none !important; } }
+
+.library { padding-block: 1.2rem; border-bottom: 1px solid var(--color-paper); font-size: .875rem; }
+.libraryTitle { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
+.libraryTitle input { min-width: 0; flex: 1 1 14rem; padding: .7rem; border: 1px solid var(--color-paper); }
+.library summary { cursor: pointer; padding-block: .5rem; }
+.recent { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: .6rem; max-height: 18rem; overflow: auto; padding: .4rem; }
+.recent button { width: 100%; overflow-wrap: anywhere; }
+.recent span { display: block; font-size: .75rem; font-weight: 400; }
+.recoveryActions { display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 1rem; }

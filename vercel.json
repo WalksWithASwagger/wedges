@@ -3,7 +3,8 @@
   "git": {
     "deploymentEnabled": {
       "codex/solo-critique": false,
-      "codex/browser-review": false
+      "codex/browser-review": false,
+      "codex/issue-13-review-recovery": false
     }
   }
 }
