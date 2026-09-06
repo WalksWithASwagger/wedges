@@ -19,9 +19,9 @@ Open `/review`. Paste a draft and a taste profile, import a Markdown/text profil
 
 Inspect up to three suggestions with exact work and taste quotations. Mark each **accept, reject, modify, or pending** and optionally write your own reason. Edit a separate working revision yourself: accepting advice never applies an edit, and the original source snapshot stays fixed. Insufficient evidence is a valid result. You can also export a draft record without requesting critique.
 
-**This tab only, no autosave.** Export JSON to keep and reopen the review; export Markdown for a readable note. Files include the original draft, taste, question, working revision, suggestions, and author decisions. Imports are versioned, validated, and limited to 512 KB; importing does not call a model. Imported attribution is supplied by the file, not verified authorship. Existing taste profiles and MCP tools remain compatible. The revision limit is 8,000 characters and each optional reason is limited to 2,000; over-limit text stays intact until you shorten it for export.
+**Saved in this browser.** Incomplete drafts and reviews autosave locally; use the recent-work list to reopen them. Anyone using this browser profile can read them, and browser eviction can erase them. Export JSON for a portable backup; export Markdown for a readable note. Files include the original draft, taste, question, working revision, suggestions, and author decisions. Imports are versioned, validated, and limited to 512 KB; importing does not call a model. Imported attribution is supplied by the file, not verified authorship. Existing taste profiles and MCP tools remain compatible. The revision limit is 8,000 characters and each optional reason is limited to 2,000; over-limit text stays intact until you shorten it for export.
 
-Submitting sends the chosen sources to Anthropic; Wedges does not persist solo review content. Local exports may contain unpublished work. See [browser verification and limitations](docs/browser-review.md).
+Submitting sends the chosen sources to Anthropic; Wedges stores browser reviews locally on this device, not on its server. Local exports may contain unpublished work. See [browser verification and limitations](docs/browser-review.md).
 
 ## Solo: the MCP server
 
@@ -62,7 +62,7 @@ The agent returns a copyable Markdown decision note with the cited suggestions, 
 
 - LLM tools use the server's `ANTHROPIC_API_KEY` (Haiku) by default; pass `anthropic_api_key` to use your own.
 - The LLM tools are rate-limited (~10/min per IP on the shared key, ~60/min BYO) plus a Vercel Firewall rule on `/api/mcp`. In-code limits are per server instance.
-- Wedges does not persist solo profiles, drafts, or decision notes. LLM inputs are sent to Anthropic for processing; your MCP host keeps its own conversation history. MCP payload logging is disabled. Film Club's separate storage behavior is described below.
+- Wedges does not persist solo profiles, drafts, or decision notes on its server. The browser review workspace autosaves these locally in the browser profile. LLM inputs are sent to Anthropic for processing; your MCP host keeps its own conversation history. MCP payload logging is disabled. Film Club's separate storage behavior is described below.
 
 ## Together: Film Club
 
