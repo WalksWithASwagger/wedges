@@ -58,4 +58,4 @@ Before #22 can be unlocked, a human must review a capped, approved live report c
 - [Claude vision](https://platform.claude.com/docs/en/build-with-claude/vision): image dimensions influence input tokens; the approximate width × height / 750 estimate is not a billing guarantee.
 - [AI SDK generateObject reference](https://ai-sdk.dev/docs/reference/ai-sdk-core/generate-object): official page fetch via web reader was unavailable (unsupported Markdown content type). Installed SDK types/source and actual stubbed request verify `maxRetries`, `maxOutputTokens`, `abortSignal` and Anthropic custom `fetch` behavior. Recheck current official SDK documentation before a live run.
 
-Rollback is removal of experimental files only. Nothing here migrates or writes user records, registers production code, or changes a deployment configuration.
+Rollback is removal of experimental files only. Nothing here migrates or writes user records, registers production code, or changes production deployment defaults. A branch-only `vercel.json` guard disables preview deployment for `codex/issue-15-visual-experiment` during review.
