@@ -5,7 +5,7 @@ import { StartRoom } from "./StartRoom";
 export const metadata: Metadata = {
   title: "Film Club — Wedges",
   description:
-    "Find five people. Watch each other's work. Real feedback, not polite feedback — through each other's taste. A Wedges room.",
+    "Share unfinished work with a few people. Posting saves work without generating AI feedback. Human comments are not available yet.",
   alternates: {
     canonical: "https://wedges.dev/club",
   },
@@ -29,18 +29,17 @@ export default function ClubHub() {
           <br />
           other&rsquo;s work.
           <br />
-          <span className="text-blood">Real feedback.</span>
+          <span className="text-blood">Start a conversation.</span>
         </h1>
         <p className="mt-7 max-w-xl text-lg leading-relaxed text-paper/75">
-          Start a room. Send the link to a few people you trust. Everyone brings their
-          Wedges taste profile and drops one unfinished thing. When you do, the room hands
-          you each other member&rsquo;s read — <span className="text-paper">through their taste</span>,
-          not a model&rsquo;s. Not polite feedback. Real feedback.
+          Start a room. Send the link to a few people you trust and drop one unfinished thing.
+          Posting saves your work for others to read. It does not generate AI feedback or notify members.
+          Human comments are not available yet — discuss the work outside Wedges.
         </p>
 
         <div className="mt-10">
           <StartRoom />
-          <p className="mt-3 kicker text-paper/45">invite-only · you bring your own profile · delete anytime</p>
+          <p className="mt-3 kicker text-paper/45">anyone with the link can read · profile optional · creator can delete</p>
         </div>
       </section>
 
@@ -48,10 +47,10 @@ export default function ClubHub() {
         <p className="kicker text-paper/45 mb-6">How it works</p>
         <ol className="space-y-5">
           {[
-            ["01", "Start a room", "You get a private link and a room code. Share it with your five people."],
-            ["02", "Everyone joins with their taste", "Each person joins with a display name and pastes their taste-profile.md (run Wedges first if you don't have one)."],
+            ["01", "Start a room", "You get a link and a room code. Anyone with the link can read the room; share thoughtfully."],
+            ["02", "Join with a name", "Use a display name. A taste profile is optional and is stored with the room."],
             ["03", "Drop one thing", "Post a piece you're working on — a paragraph, a scene, a pitch. Text for now."],
-            ["04", "Get read through their eyes", "Every other member's taste critiques your work: what they'd cut, where it goes generic, whether they'd ship it."],
+            ["04", "Read and discuss", "Read the shared work and discuss it outside Wedges for now. Existing feedback is clearly labeled as legacy AI-generated interpretation."],
           ].map(([n, h, b]) => (
             <li key={n} className="grid grid-cols-[2.5rem_1fr] gap-x-4">
               <span className="stencil text-blood text-xl">{n}</span>
@@ -63,11 +62,11 @@ export default function ClubHub() {
           ))}
         </ol>
         <p className="mt-10 text-sm text-paper/55">
-          Don&rsquo;t have a profile yet?{" "}
+          Want to make a profile?{" "}
           <Link href="/" className="text-paper underline decoration-blood underline-offset-4 hover:text-blood">
-            Run Wedges first
+            Explore Wedges
           </Link>{" "}
-          — point your agent at it and you&rsquo;ll get the file.
+          — it is optional for Film Club.
         </p>
       </section>
     </main>

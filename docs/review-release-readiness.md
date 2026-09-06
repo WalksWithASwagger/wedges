@@ -55,3 +55,7 @@ No runtime exploit was confirmed here, so there is no fabricated exploit-specifi
 - Provider spend settings, real Redis health, legacy transport live behavior, optimizer attack reachability, Safari/Firefox/assistive technology and a real-author pilot: not verified by this packet.
 
 The PR's only delivery exception is an exact-branch `git.deploymentEnabled: false` entry following the repository's existing pattern, to prevent this report branch from automatically deploying when pushed. It changes no production default or remote project setting. [Vercel documents this branch-specific behavior](https://vercel.com/docs/project-configuration/git-configuration). Reverting the report is a docs revert; it does not alter provider/storage/firewall state.
+
+## Merge integration update — 2026-09-06
+
+The audit above retains its `dc75efe` baseline. PRs #27 (local recovery), #24 (zero-generation Club posting), and #25 (offline visual experiment) have now merged. Club posting no longer invokes the provider. The visual experiment remains unregistered and its paid semantic evaluation has not run. These changes do not establish a provider spending cap or clear the broader promotion gates. All exact swarm branch deployment guards are preserved during integration.

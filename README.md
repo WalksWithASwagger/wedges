@@ -9,7 +9,7 @@ Both Hands Full is a set of exercises that help *humans* protect their taste, vo
 It has two halves:
 
 1. **Solo** — a browser review workspace and public remote **MCP server**. Review a draft directly, or run the exercises through your agent and keep a portable taste profile.
-2. **Together** — **Film Club**, shared crit rooms where a few people drop work and read each other's through their taste profiles. Real feedback, not polite feedback.
+2. **Together** — **Film Club**, shared rooms where a few people post unfinished work. No automatic AI feedback; human comments are not available yet.
 
 ---
 
@@ -19,9 +19,9 @@ Open `/review`. Paste a draft and a taste profile, import a Markdown/text profil
 
 Inspect up to three suggestions with exact work and taste quotations. Mark each **accept, reject, modify, or pending** and optionally write your own reason. Edit a separate working revision yourself: accepting advice never applies an edit, and the original source snapshot stays fixed. Insufficient evidence is a valid result. You can also export a draft record without requesting critique.
 
-**This tab only, no autosave.** Export JSON to keep and reopen the review; export Markdown for a readable note. Files include the original draft, taste, question, working revision, suggestions, and author decisions. Imports are versioned, validated, and limited to 512 KB; importing does not call a model. Imported attribution is supplied by the file, not verified authorship. Existing taste profiles and MCP tools remain compatible. The revision limit is 8,000 characters and each optional reason is limited to 2,000; over-limit text stays intact until you shorten it for export.
+**Saved in this browser.** Incomplete drafts and reviews autosave locally; use the recent-work list to reopen them. Anyone using this browser profile can read them, and browser eviction can erase them. Export JSON for a portable backup; export Markdown for a readable note. Files include the original draft, taste, question, working revision, suggestions, and author decisions. Imports are versioned, validated, and limited to 512 KB; importing does not call a model. Imported attribution is supplied by the file, not verified authorship. Existing taste profiles and MCP tools remain compatible. The revision limit is 8,000 characters and each optional reason is limited to 2,000; over-limit text stays intact until you shorten it for export.
 
-Submitting sends the chosen sources to Anthropic; Wedges does not persist solo review content. Local exports may contain unpublished work. See [browser verification and limitations](docs/browser-review.md).
+Submitting sends the chosen sources to Anthropic; Wedges stores browser reviews locally on this device, not on its server. Local exports may contain unpublished work. See [browser verification and limitations](docs/browser-review.md).
 
 ## Solo: the MCP server
 
@@ -62,14 +62,15 @@ The agent returns a copyable Markdown decision note with the cited suggestions, 
 
 - LLM tools use the server's `ANTHROPIC_API_KEY` (Haiku) by default; pass `anthropic_api_key` to use your own.
 - The LLM tools are rate-limited (~10/min per IP on the shared key, ~60/min BYO) plus a Vercel Firewall rule on `/api/mcp`. In-code limits are per server instance.
-- Wedges does not persist solo profiles, drafts, or decision notes. LLM inputs are sent to Anthropic for processing; your MCP host keeps its own conversation history. MCP payload logging is disabled. Film Club's separate storage behavior is described below.
+- Wedges does not persist solo profiles, drafts, or decision notes on its server. The browser review workspace autosaves these locally in the browser profile. LLM inputs are sent to Anthropic for processing; your MCP host keeps its own conversation history. MCP payload logging is disabled. Film Club's separate storage behavior is described below.
 
 ## Together: Film Club
 
-`wedges.dev/club` — start a room, send the link to a few people, everyone joins with a display name + their `taste-profile.md`. Drop one unfinished thing; the room generates a critique from **each other member's taste lens** (server-side) — what they'd cut, where it goes generic, whether they'd ship it.
+`wedges.dev/club` — start a room and share unfinished text work. Join with a display name; a stored taste profile is optional. Posting makes zero model calls. Historical generated feedback remains visible as **Legacy AI-generated feedback**, with names identifying only the supplied profile lens. Human commenting is not available yet.
 
-- **Identity:** share-link + display name, cookies, no accounts.
-- **Storage:** rooms persist until deleted (Upstash Redis in prod; in-memory in dev). Your profile is yours, rooms are invite-only and deletable.
+- **Identity:** share-link + display name, cookies, no accounts. Anyone with a room code/link can read; this is not private membership-gated access.
+- **Storage:** rooms persist until deleted (Upstash Redis in prod; in-memory in dev). The creator can delete a room.
+- **Limits and verification:** see [Film Club behavior](docs/film-club.md).
 - In production the club is gated behind the store being configured (`isStoreConfigured()`), so it stays dark until a Redis is connected.
 
 ## Repo map
@@ -90,7 +91,7 @@ lib/
   selector-pressure.ts       # deterministic taste scoring + rounds
   profile.ts                 # taste-profile.md assembly
   anthropic.ts, errors.ts, rate-limit.ts
-  club/                      # store, types, critique core, cookies
+  club/                      # store, types, cookies
 docs/VISION.md               # the Film Club design brief
 ROADMAP.md                   # what's next
 ```
