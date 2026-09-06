@@ -1,9 +1,9 @@
 # Wedges — roadmap
 
-Browser review status updated 2026-09-04. Older roadmap entries below remain proposals and may need revalidation.
+Browser review status updated 2026-09-06. Older roadmap entries below remain proposals and may need revalidation.
 
-## In review (not deployed)
-- **Browser review and portable author decisions** ([#11](https://github.com/WalksWithASwagger/wedges/issues/11)): direct `/review` workflow, cited suggestions, manual revision, explicit author decisions, Markdown export and versioned JSON reopening. Session-only state; no Film Club changes or model migration. See `docs/browser-review.md` for verification and the remaining human pilot. Automatic Git deployments of `codex/browser-review` are disabled during review.
+## Browser review release
+- **Browser review and portable author decisions** ([#11](https://github.com/WalksWithASwagger/wedges/issues/11), [#12](https://github.com/WalksWithASwagger/wedges/pull/12)): merged 2026-09-06; GitHub reports a successful production deployment of `dc75efe`. Direct `/review` workflow, cited suggestions, manual revision, explicit author decisions, Markdown export and versioned JSON reopening. That original release was session-only. Local review recovery and a browser-local library have since merged in [PR #27](https://github.com/WalksWithASwagger/wedges/pull/27); browser storage is not a backup, so portable exports remain important. See `docs/browser-review.md` for implementation evidence and the unperformed human pilot, and [release readiness](docs/review-release-readiness.md) for current advisory/spending limits and unresolved promotion gates. Deployment metadata does not establish model quality or a completed pilot.
 
 ## Shipped (live on wedges.dev)
 - **Solo critique and author decision note** ([#9](https://github.com/WalksWithASwagger/wedges/issues/9), [#10](https://github.com/WalksWithASwagger/wedges/pull/10)): bounded, cited `critique` and the `review_draft` prompt; author choices remain explicit. Merged 2026-09-04 (Vancouver). See `docs/critique-evals.md` for dated validation and its limits.
@@ -11,10 +11,10 @@ Browser review status updated 2026-09-04. Older roadmap entries below remain pro
 - **Landing page** — xerox-punk identity, voice-true copy (Kris's keynote lines), branded OG card.
 - **Hardening** — in-code rate limits on the LLM tools + a Vercel Firewall rule on `/api/mcp`; `wedges.dev` with TLS.
 - **Experience fixes** — `get_pressure_rounds` (the pressure test is now actually runnable by an agent); `taste_audit` takes base64 (URLs fail on robots.txt/hotlink); rewritten `start_wedges` flow.
-- **Film Club** (`/club`) — the deployed baseline still generates feedback automatically through member profiles. Truthful attribution and zero-generation posting are in review below; they are not yet live.
+- **Film Club** (`/club`) — zero-generation text posting and truthful historical AI attribution merged in PR #24. Room availability still depends on configured storage.
 
-## Film Club change in review
-- **Truthful attribution and zero-generation posting** ([#14](https://github.com/WalksWithASwagger/wedges/issues/14), [PR #24](https://github.com/WalksWithASwagger/wedges/pull/24)) — proposed text posting without automatic critique generation; historical responses remain labeled as legacy AI, not member endorsement. Human commenting remains planned. This branch is not merged or deployed; see `docs/film-club.md` for the proposed behavior and verification.
+## Recent merged changes
+- **Truthful attribution and zero-generation posting** ([#14](https://github.com/WalksWithASwagger/wedges/issues/14), [PR #24](https://github.com/WalksWithASwagger/wedges/pull/24)) — text posting without automatic critique generation; historical responses remain labeled as legacy AI, not member endorsement. Human commenting remains planned. Merged 2026-09-06; see `docs/film-club.md` for behavior and verification.
 
 ## One switch away
 - **Turn Film Club on** — connect an Upstash Redis to the Vercel `wedges` project (Storage tab, free tier). The code auto-detects the env vars; redeploy → rooms persist and the guard lifts. Until then the club is dark by design.
@@ -32,5 +32,5 @@ Browser review status updated 2026-09-04. Older roadmap entries below remain pro
 
 ## Known debt / watch-items
 - Rate limiter is in-memory/per-instance — durable upgrade is an Upstash-backed limiter (the store will already be there once Film Club is on).
-- The deployed Club generator still spends the server provider key. PR #24 proposes eliminating provider calls on posting; any later AI assistance needs its own explicit opt-in design after human commenting.
+- PR #24 removes provider calls on Club posting; any later AI assistance needs its own explicit opt-in design after human commenting.
 - The dev Anthropic key was pasted in a working session; Kris chose to keep it. Rotate if it ever leaks further.
