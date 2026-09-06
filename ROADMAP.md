@@ -1,9 +1,9 @@
 # Wedges — roadmap
 
-Browser review status updated 2026-09-04. Older roadmap entries below remain proposals and may need revalidation.
+Browser review status updated 2026-09-06. Older roadmap entries below remain proposals and may need revalidation.
 
-## In review (not deployed)
-- **Browser review and portable author decisions** ([#11](https://github.com/WalksWithASwagger/wedges/issues/11)): direct `/review` workflow, cited suggestions, manual revision, explicit author decisions, Markdown export and versioned JSON reopening. Session-only state; no Film Club changes or model migration. See `docs/browser-review.md` for verification and the remaining human pilot. Automatic Git deployments of `codex/browser-review` are disabled during review.
+## Browser review release
+- **Browser review and portable author decisions** ([#11](https://github.com/WalksWithASwagger/wedges/issues/11), [#12](https://github.com/WalksWithASwagger/wedges/pull/12)): merged 2026-09-06; GitHub reports a successful production deployment of `dc75efe`. Direct `/review` workflow, cited suggestions, manual revision, explicit author decisions, Markdown export and versioned JSON reopening. That release is session-only; local recovery and Film Club changes remain separate work. See `docs/browser-review.md` for implementation evidence and the unperformed human pilot, and [release readiness](docs/review-release-readiness.md) for current advisory/spending limits and unresolved promotion gates. Deployment metadata does not establish model quality or a completed pilot.
 
 ## Shipped (live on wedges.dev)
 - **Solo critique and author decision note** ([#9](https://github.com/WalksWithASwagger/wedges/issues/9), [#10](https://github.com/WalksWithASwagger/wedges/pull/10)): bounded, cited `critique` and the `review_draft` prompt; author choices remain explicit. Merged 2026-09-04 (Vancouver). See `docs/critique-evals.md` for dated validation and its limits.
