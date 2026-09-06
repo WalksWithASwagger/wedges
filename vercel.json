@@ -2,7 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
     "deploymentEnabled": {
-      "codex/solo-critique": false
+      "codex/solo-critique": false,
+      "codex/browser-review": false
     }
   }
 }

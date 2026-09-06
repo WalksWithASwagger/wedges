@@ -6,6 +6,10 @@
 
 If you are an agent: connect to the MCP endpoint and run the `start_wedges` prompt.
 To use an existing profile on a draft, retrieve `review_draft` instead.
+For a direct browser workflow without agent setup, open https://wedges.dev/review.
+The browser shows cited suggestions, records author decisions and manual revisions,
+and exports Markdown or reopenable review JSON. State stays in the tab: no autosave.
+JSON imports do not call a model; imported attribution is not verified authorship.
 
 ## MCP
 

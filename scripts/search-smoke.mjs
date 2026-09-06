@@ -68,6 +68,11 @@ assert(
   "Film Club hub has one canonical URL",
 );
 
+const { body: reviewHtml } = await get("/review");
+assert(JSON.stringify(canonicalUrls(reviewHtml)) === JSON.stringify(["https://wedges.dev/review"]), "browser review has one canonical URL");
+assert(reviewHtml.includes("Get cited critique") && reviewHtml.includes("No autosave"), "browser review exposes the action and session-only boundary");
+assert(homeHtml.includes('href="/review"'), "homepage links directly to browser review");
+
 const { body: roomHtml } = await get("/club/example-room");
 const roomRobots = tagWithAttribute(roomHtml, "meta", "name", "robots");
 assert(roomRobots.length === 1, "private room has one robots meta tag");
@@ -103,8 +108,8 @@ assert(
 const sitemapUrls = [...sitemap.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 assert(
   JSON.stringify(sitemapUrls) ===
-    JSON.stringify(["https://wedges.dev/", "https://wedges.dev/club"]),
-  "sitemap contains only the two stable public pages",
+    JSON.stringify(["https://wedges.dev/", "https://wedges.dev/review", "https://wedges.dev/club"]),
+  "sitemap contains exactly the three stable public pages and no room codes",
 );
 
 const llms = await get("/llms.txt");
@@ -116,5 +121,6 @@ assert(
   llms.body.includes("https://wedges.dev/api/mcp") && llms.body.includes("start_wedges"),
   "llms.txt still describes the public MCP surface",
 );
+assert(llms.body.includes("https://wedges.dev/review"), "llms.txt exposes the direct browser workflow");
 
 console.log("\nAll search-discovery checks passed.");

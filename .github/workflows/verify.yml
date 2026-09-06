@@ -1,0 +1,41 @@
+name: Verify
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run lint
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium --only-shell
+      - run: npm run test:browser
+      - name: HTTP smoke checks (no model calls)
+        env:
+          WEDGES_URL: http://127.0.0.1:3189/api/mcp
+          WEDGES_SITE_URL: http://127.0.0.1:3189
+        run: |
+          npm run start -- --hostname 127.0.0.1 --port 3189 > /tmp/wedges-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:3189/ > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run smoke
+          npm run verify:search
