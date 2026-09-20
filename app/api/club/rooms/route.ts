@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getStore, isStoreConfigured, newRoomCode, newToken } from "@/lib/club/store";
+import { CREATE_CODE_ATTEMPTS, getStore, isStoreConfigured, newRoomCode, newToken, storeErrorMessage } from "@/lib/club/store";
 import { ownerCookie, cookieOpts } from "@/lib/club/cookies";
 import type { Room } from "@/lib/club/types";
 
@@ -17,20 +17,26 @@ export async function POST(req: Request) {
   const title = (typeof body?.title === "string" ? body.title : "").trim().slice(0, 80) || "Film Club";
 
   const store = getStore();
-  let code = newRoomCode();
-  for (let i = 0; i < 4 && (await store.get(code)); i++) code = newRoomCode();
+  for (let attempt = 0; attempt < CREATE_CODE_ATTEMPTS; attempt++) {
+    const code = newRoomCode();
+    const ownerToken = newToken();
+    const room: Room = {
+      code,
+      title,
+      createdAt: Date.now(),
+      ownerToken,
+      members: [],
+      submissions: [],
+    };
+    const created = await store.createIfAbsent(room);
+    if (created.ok) {
+      (await cookies()).set(ownerCookie(code), ownerToken, cookieOpts);
+      return NextResponse.json({ code });
+    }
+    if (created.error === "unavailable") {
+      return NextResponse.json({ error: "unavailable", message: storeErrorMessage("unavailable") }, { status: 503 });
+    }
+  }
 
-  const ownerToken = newToken();
-  const room: Room = {
-    code,
-    title,
-    createdAt: Date.now(),
-    ownerToken,
-    members: [],
-    submissions: [],
-  };
-  await store.set(room);
-
-  (await cookies()).set(ownerCookie(code), ownerToken, cookieOpts);
-  return NextResponse.json({ code });
+  return NextResponse.json({ error: "conflict", message: storeErrorMessage("conflict") }, { status: 409 });
 }
