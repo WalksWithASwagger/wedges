@@ -347,7 +347,7 @@ moving toward risky, specific cuts.`}
         </nav>
 
         <p className="kicker mt-10 text-paper/35">
-          your profile stays yours · rooms are invite-only &amp; deletable · rate-limited · bring your own key
+          your profile stays yours · rooms are share-link readable &amp; deletable · rate-limited · bring your own key
         </p>
       </footer>
     </main>

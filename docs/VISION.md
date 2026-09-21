@@ -4,13 +4,20 @@
 
 ## Where we are
 
-Wedges v1 is a solo loop: a person points their agent at the server, runs the
-Both Hands Full exercises, and walks away with one portable file — their taste
-profile. Dogfooding confirmed the file is genuinely good (the Mirror Booth drift
-analysis and the assembled profile are sharp, specific, loadable — not filler).
+Wedges started as a solo loop: a person points their agent at the server, runs
+the Both Hands Full exercises, and walks away with one portable file — their
+taste profile. Dogfooding confirmed the file is genuinely good (the Mirror Booth
+drift analysis and the assembled profile are sharp, specific, loadable — not
+filler). `/review` now offers that same cited-critique loop in the browser.
 
-That file is the substrate. The bigger vision is what happens when more than one
-of them is in the room.
+Film Club rooms have since shipped at `/club` with persistence (Redis in
+production when configured, in-memory locally). Rooms stay until deleted.
+Room codes currently permit reading without membership; cookie credentials
+still govern writing and deletion. Open #19 is the membership/invite follow-up,
+not current behavior. Taste profiles are still not aggregated.
+
+That file remains the substrate. The bigger vision is still what happens when
+more than one of them is in the room.
 
 ## What Kris actually said (the grounding)
 
@@ -44,12 +51,13 @@ opinionated — the opposite of generic sycophantic LLM praise.
   generic and flattering); it builds directly on the artifact we just proved is
   good; and it keeps **sovereignty** — profiles are exchanged peer-to-peer
   (you hand yours to a collaborator), nothing aggregated, nothing stored.
-- **v1 shape (lightweight, no storage):** a `critique` tool — inputs are the
-  work (text or images) + the reviewer's taste profile (+ optionally the
-  author's); output is feedback in the reviewer's voice/values, plus a blunt
-  "would I ship this?" read. Profiles are passed per-call (the user already owns
-  the file). Optional later: a small "room" where a few people drop work +
-  profiles and agents cross-critique.
+- **v1 shape (as designed, then shipped):** a `critique` tool — inputs are the
+  work (text; images remain a later gate) + the reviewer's taste profile (+
+  optionally the author's); output is feedback in the reviewer's voice/values.
+  Profiles are passed per-call (the user already owns the file). The "optional
+  later" room now exists: `/club` is a shared place where a few people drop
+  unfinished text. Persistence is scoped to Film Club rooms, not taste-profile
+  aggregation. See `docs/film-club.md`.
 
 ### 2. A taste commons — a collective read
 Opt-in: many profiles aggregate into a sense of a community's taste — "what does
@@ -79,6 +87,6 @@ the project's spine intact: your taste stays yours, the feedback gets real, and
 two agents are genuinely figuring it out together — mediated by the two humans'
 actual judgment, not a model's defaults.
 
-Open question for Kris: is "the room" (a shared place people gather) part of v1,
-or is v1 just the `critique` tool + passing profiles between collaborators by
-hand? That decides whether we need any persistence at all.
+The room question is settled for current v1: `/club` is a shared place with
+persistence. The `critique` tool still accepts profiles per-call. Membership-gated
+reads and private invitations are not shipped (#19).

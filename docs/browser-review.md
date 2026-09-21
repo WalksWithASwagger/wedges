@@ -44,7 +44,7 @@ The starting revision is `87ff5f5`. Its 12 Node tests, typecheck, and lint passe
 
 The initial dependency audit reported 13 advisories (4 moderate, 9 high). No broad dependency upgrade is part of this feature. Per-instance limiting is not a global spending cap. Before broader promotion, recheck provider budgets, deployed firewall configuration, and advisory reachability. The browser reuses `/api/mcp`, rather than creating a second unprotected paid endpoint.
 
-The branch-specific `vercel.json` rule disables automatic Git deployment of `codex/browser-review`. It does not disable local builds or alter production branch defaults. This PR must not be represented as deployed before release.
+The leftover `codex/browser-review` and `codex/issue-13-review-recovery` keys in `vercel.json` still disable automatic Git deployments of those merged branch names. They do not disable local builds or alter production branch defaults. #11/#12 and #13/#27 have merged; ROADMAP records a production deploy of `dc75efe`. This document is implementation evidence, not a claim that promotion gates are cleared.
 
 ## Implementation evidence — 2026-09-04
 
