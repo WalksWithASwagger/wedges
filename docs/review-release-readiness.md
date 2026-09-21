@@ -58,4 +58,4 @@ The PR's only delivery exception is an exact-branch `git.deploymentEnabled: fals
 
 ## Merge integration update — 2026-09-06
 
-The audit above retains its `dc75efe` baseline. PRs #27 (local recovery), #24 (zero-generation Club posting), and #25 (offline visual experiment) have now merged. Club posting no longer invokes the provider. The visual experiment remains unregistered and its paid semantic evaluation has not run. These changes do not establish a provider spending cap or clear the broader promotion gates. All exact swarm branch deployment guards are preserved during integration.
+The audit above retains its `dc75efe` baseline. PRs #27 (local recovery), #24 (zero-generation Club posting), and #25 (offline visual experiment) have now merged. Club posting no longer invokes the provider. The visual experiment remains unregistered and its paid semantic evaluation has not run. These changes do not establish a provider spending cap or clear the broader promotion gates. The leftover swarm-branch `vercel.json` deployment guards were later removed; they are not current config.

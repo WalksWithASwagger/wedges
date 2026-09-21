@@ -32,7 +32,7 @@ CLUB_TEST_NAMESPACE=issue18 \
 npx tsx --test tests/club-store.test.ts
 ```
 
-The helper constructs keys as `room:test:{namespace}:{code}` and skips unless all three variables are set and the namespace is not `prod`/`production`. **Result on this branch: unverified.** This environment has no dedicated `CLUB_TEST_*` Redis, so the integration test recorded the skip. Do not treat the memory-store pass as Redis evidence.
+The helper constructs keys as `room:test:{namespace}:{code}` and skips unless all three variables are set and the namespace is not `prod`/`production`. **Redis integration remains unverified on main after #28.** This environment has no dedicated `CLUB_TEST_*` Redis, so the integration test recorded the skip. Do not treat the memory-store pass as Redis evidence.
 
 ## Verification
 
