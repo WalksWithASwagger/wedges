@@ -83,10 +83,13 @@ app/
   opengraph-image.tsx        # branded OG card
   club/                      # Film Club hub + room UI
   review/                    # browser review, author decisions, manual revision
+  review/useReviewLibrary.ts # local work library hook
 lib/
   critique-contract.ts       # browser-safe critique schema and evidence checks
   review-client.ts           # browser MCP adapter (loaded on submission)
   review-record.ts           # versioned review import/export
+  review-storage.ts          # browser-local review persistence
+  visual-critique-experiment.ts # parked #15/#22 offline visual experiment
   exercises/                 # mirror-booth, taste-audit, solo critique (UI-free)
   selector-pressure.ts       # deterministic taste scoring + rounds
   profile.ts                 # taste-profile.md assembly

@@ -11,9 +11,10 @@ Browser review status updated 2026-09-06. Older roadmap entries below remain pro
 - **Landing page** — xerox-punk identity, voice-true copy (Kris's keynote lines), branded OG card.
 - **Hardening** — in-code rate limits on the LLM tools + a Vercel Firewall rule on `/api/mcp`; `wedges.dev` with TLS.
 - **Experience fixes** — `get_pressure_rounds` (the pressure test is now actually runnable by an agent); `taste_audit` takes base64 (URLs fail on robots.txt/hotlink); rewritten `start_wedges` flow.
-- **Film Club** (`/club`) — zero-generation text posting and truthful historical AI attribution merged in PR #24. Room availability still depends on configured storage.
+- **Film Club** (`/club`) — zero-generation text posting and truthful historical AI attribution merged in PR #24; atomic room mutations merged in PR #28. Room availability still depends on configured storage.
 
 ## Recent merged changes
+- **Atomic Club mutations** ([#18](https://github.com/WalksWithASwagger/wedges/issues/18), [PR #28](https://github.com/WalksWithASwagger/wedges/pull/28)) — create/join/submit/delete no longer use unconstrained whole-room read/modify/write. Memory locks plus Redis compare-and-swap. Merged 2026-09-20. Redis integration remains unverified. See `docs/film-club.md`.
 - **Truthful attribution and zero-generation posting** ([#14](https://github.com/WalksWithASwagger/wedges/issues/14), [PR #24](https://github.com/WalksWithASwagger/wedges/pull/24)) — text posting without automatic critique generation; historical responses remain labeled as legacy AI, not member endorsement. Human commenting remains planned. Merged 2026-09-06; see `docs/film-club.md` for behavior and verification.
 
 ## One switch away

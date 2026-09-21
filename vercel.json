@@ -1,13 +1,3 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "git": {
-    "deploymentEnabled": {
-      "codex/solo-critique": false,
-      "codex/browser-review": false,
-      "codex/issue-16-release-evidence": false,
-      "codex/issue-15-visual-experiment": false,
-      "codex/issue-14-club-attribution": false,
-      "codex/issue-13-review-recovery": false
-    }
-  }
+  "$schema": "https://openapi.vercel.sh/vercel.json"
 }

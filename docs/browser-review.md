@@ -44,7 +44,7 @@ The starting revision is `87ff5f5`. Its 12 Node tests, typecheck, and lint passe
 
 The initial dependency audit reported 13 advisories (4 moderate, 9 high). No broad dependency upgrade is part of this feature. Per-instance limiting is not a global spending cap. Before broader promotion, recheck provider budgets, deployed firewall configuration, and advisory reachability. The browser reuses `/api/mcp`, rather than creating a second unprotected paid endpoint.
 
-The leftover `codex/browser-review` and `codex/issue-13-review-recovery` keys in `vercel.json` still disable automatic Git deployments of those merged branch names. They do not disable local builds or alter production branch defaults. #11/#12 and #13/#27 have merged; ROADMAP records a production deploy of `dc75efe`. This document is implementation evidence, not a claim that promotion gates are cleared.
+The leftover `codex/browser-review` and `codex/issue-13-review-recovery` `vercel.json` Git deployment guards were removed after those branches merged. They never disabled local builds or altered production branch defaults. #11/#12 and #13/#27 have merged; ROADMAP records a production deploy of `dc75efe`. This document is implementation evidence, not a claim that promotion gates are cleared.
 
 ## Implementation evidence — 2026-09-04
 
@@ -64,4 +64,4 @@ Typecheck, lint, 19 Node tests, production build, 32 Chromium checks (desktop an
 
 Local browser checks used an uncommitted temporary config on port 3195 because an unrelated process occupied the default 3188. The committed test configuration and CI remain unchanged. The sandbox's Google Fonts request failed; the network-enabled build passed. The first manual MCP smoke invocation mistakenly targeted the site root and returned 405; targeting `/api/mcp` passed. Existing multiple-lockfile warnings and the 13 dependency advisories remain outside this slice.
 
-The new branch-specific `codex/issue-13-review-recovery: false` Vercel Git deployment rule prevents this development branch's automatic preview deployment; production defaults are unchanged. No deployment was performed. README and `llms.txt` now describe browser-local privacy accurately. The portable v1 record schema, model contract, runtime dependencies, and repo-local agent instructions are unchanged.
+This worktree added a branch-specific `codex/issue-13-review-recovery: false` Vercel Git deployment rule to prevent that development branch's automatic preview deployment; production defaults were unchanged. That leftover guard was later removed. No deployment was performed. README and `llms.txt` now describe browser-local privacy accurately. The portable v1 record schema, model contract, runtime dependencies, and repo-local agent instructions are unchanged.

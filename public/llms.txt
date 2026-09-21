@@ -49,3 +49,5 @@ films, portals, music, and agent tools.
 - [Ghost Radio](https://ghost.radio.fm/)
 - [Too Weird to Die](https://www.bothhandsfull.com/album/too-weird-to-die)
 - [Ethos Lab Block Party](https://ethosblockparty.com/the-day)
+- [Dark Crystal](https://darkcrystal.app/)
+- [unofficial.city](https://unofficial.city/)
