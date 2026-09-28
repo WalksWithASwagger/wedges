@@ -3,9 +3,10 @@
 All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-This file covers pull requests merged from 2026-08-29 through 2026-09-28.
-Each entry is the GitHub PR title, linked to that PR. Sources: `git log` on
-`main` and merged PR titles. Nothing here is invented.
+This file covers every pull request merged from 2026-08-29 through 2026-09-28.
+Each entry is a one-line summary with the PR number and link. Sources: `gh pr
+list --state merged --search "merged:>=2026-08-29"` and `git log` on `main`.
+Nothing here is invented.
 
 `package.json` is `0.1.0`. There are no git tags or GitHub releases, so these
 land under Unreleased. Older history on `main` is not reconstructed.
@@ -16,35 +17,45 @@ Closed-without-merge PRs are omitted.
 
 ### Added
 
-- Add bounded offline visual critique experiment
+- Adds a bounded offline still-image critique experiment and eval harness;
+  production UI stays unchanged
   ([#25](https://github.com/WalksWithASwagger/wedges/pull/25)) — merged 2026-09-06
-- Recover browser reviews with a local work library
+- Saves browser reviews in a local work library so drafts and decisions survive
+  a closed tab
   ([#27](https://github.com/WalksWithASwagger/wedges/pull/27)) — merged 2026-09-06
-- Add browser critique with portable author decisions
+- Adds `/review` in the browser: submit a draft, inspect cited suggestions, and
+  record accept / reject / modify decisions
   ([#12](https://github.com/WalksWithASwagger/wedges/pull/12)) — merged 2026-09-06
-- Add cited solo critique and author decision notes
+- Adds cited solo critique and author decision notes over MCP
   ([#10](https://github.com/WalksWithASwagger/wedges/pull/10)) — merged 2026-09-05
 
 ### Changed
 
-- Make Film Club room mutations atomic
+- Makes Film Club create / join / submit / delete atomic so concurrent writes
+  no longer clobber each other
   ([#28](https://github.com/WalksWithASwagger/wedges/pull/28)) — merged 2026-09-20
-- Stop Film Club from presenting AI feedback as member endorsement
+- Stops Film Club from presenting AI feedback as if members endorsed it
   ([#24](https://github.com/WalksWithASwagger/wedges/pull/24)) — merged 2026-09-06
 
 ### Documentation
 
-- chore(audit): Wave 5 stale docs/code scout (find-only)
+- Adds the first CHANGELOG covering the twelve PRs merged from late August
+  through late September
+  ([#40](https://github.com/WalksWithASwagger/wedges/pull/40)) — merged 2026-09-28
+- Wave 5 stale-docs scout: no new findings after Wave 3
   ([#39](https://github.com/WalksWithASwagger/wedges/pull/39)) — merged 2026-09-21
-- chore(audit): Wave 3 stale docs/code scout (find-only)
+- Wave 3 stale-docs scout: no new findings after the Wave 2 cleanups
   ([#37](https://github.com/WalksWithASwagger/wedges/pull/37)) — merged 2026-09-21
-- docs: Wave 2c p2 — doc map + leftover scaffold cleanup
+- Wave 2c: updates the doc map and removes leftover scaffold (merged-branch
+  Vercel guards and unused SVGs)
   ([#35](https://github.com/WalksWithASwagger/wedges/pull/35)) — merged 2026-09-21
-- docs: Wave 2b p1 — repair 8 misleading review/club docs
+- Wave 2b: repairs eight misleading review / club docs and the homepage footer
+  about room access
   ([#33](https://github.com/WalksWithASwagger/wedges/pull/33)) — merged 2026-09-21
-- chore(audit): Wave 1 stale docs/code scout (find-only)
+- Wave 1 find-only scout of stale docs and leftover code after the September
+  issue drain
   ([#31](https://github.com/WalksWithASwagger/wedges/pull/31)) — merged 2026-09-21
-- Record browser review release evidence and remaining gates
+- Records browser-review release evidence and the remaining go / no-go gates
   ([#26](https://github.com/WalksWithASwagger/wedges/pull/26)) — merged 2026-09-06
 
 [Unreleased]: https://github.com/WalksWithASwagger/wedges/commits/main
