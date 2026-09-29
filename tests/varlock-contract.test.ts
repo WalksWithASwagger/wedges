@@ -7,10 +7,11 @@ const ROOT = new URL("..", import.meta.url);
 test("schema imports shared keys by pick and the wedges values file by path", () => {
   const schema = readFileSync(new URL(".env.schema", ROOT), "utf8");
   const shared = schema.match(
-    /# @import\((?<path>~\/.agents\/env\/values\/\.env\.shared\.local), pick=\[(?<items>[A-Z0-9_, ]+)\], allowMissing=true\)/,
+    /# @import\((~\/.agents\/env\/values\/\.env\.shared\.local), pick=\[([A-Z0-9_, ]+)\], allowMissing=true\)/,
   );
   assert.ok(shared, "shared values import must stay pick-restricted");
-  assert.equal(shared?.groups?.items, "ANTHROPIC_API_KEY");
+  assert.equal(shared?.[1], "~/.agents/env/values/.env.shared.local");
+  assert.equal(shared?.[2], "ANTHROPIC_API_KEY");
   assert.match(
     schema,
     /# @import\(~\/.agents\/env\/values\/\.env\.wedges\.local, allowMissing=true\)/,
