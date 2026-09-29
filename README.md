@@ -101,9 +101,19 @@ ROADMAP.md                   # what's next
 
 ## Environment
 
-`.env.schema` is the agent-readable contract. Keep values in ignored local
-files or Vercel, validate with `varlock load --agent --show-all`, and run
-secret-dependent commands through `varlock run --inject vars -- <command>`.
+`.env.schema` is the agent-readable contract. Local values live in
+`~/.agents/env/values/` and are imported by path: `ANTHROPIC_API_KEY` from
+`.env.shared.local` (explicit `pick`), then the project file
+`.env.wedges.local` as a whole. Both imports use `allowMissing=true`. Deployed
+values stay in Vercel. Agents must not create that directory or open its
+value files.
+
+`npm run dev` loads the contract through `varlock run --inject vars` and
+works when the value files are absent. Do not wrap `npm run build` or
+`npm run start` with Varlock — Vercel keeps injecting deployed values
+itself. Validate with `npm run env:validate` (`varlock load --agent --show-all`).
+For other env-dependent commands, inject resolved variables only into the
+child process with `varlock run --inject vars -- <command>`.
 
 ## Develop
 
@@ -111,10 +121,11 @@ Use **Node.js 22 or newer**, as required by the locked AI SDK.
 
 ```bash
 npm ci
-npm run dev          # http://localhost:3000
+npm run env:validate # redacted Varlock load; missing value files are allowed
+npm run dev          # Varlock-injected next dev — http://localhost:3000
 npm run verify       # typecheck + unit tests + deterministic MCP smoke (needs server)
 npm run lint
-npm run build
+npm run build        # native Next build; do not wrap with Varlock
 npm run verify:search # public metadata checks (needs server)
 ```
 

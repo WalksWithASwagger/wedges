@@ -209,7 +209,14 @@ Report:
 
 ## Secrets (Varlock)
 
-- Local secrets for agent/tool use live in gitignored plaintext `.env` / `.env.local` (mode `0600`). Varlock owns `.env.schema` + `load`/`run` injection — not macOS Keychain or Touch ID.
-- Agents inspect with `varlock load --agent` and run tools with `varlock run --inject vars -- <command>`.
-- Never `cat` `.env` / `.env.local`, never `printenv` secrets, never `varlock reveal` in agent sessions.
+- Local values live in `~/.agents/env/values/` (`.env.shared.local` pick-restricted
+  to `ANTHROPIC_API_KEY`, then `.env.wedges.local` imported whole). Varlock owns
+  `.env.schema` + `load`/`run` injection — not macOS Keychain or Touch ID.
+- `npm run dev` loads that contract through `varlock run --inject vars`. Do not
+  wrap `npm run build` or `npm run start`. Missing value files are allowed.
+- Agents inspect with `npm run env:validate` (`varlock load --agent --show-all`)
+  and run other secret-dependent tools with `varlock run --inject vars -- <command>`.
+- Never `cat` `.env` / `.env.local`, never `printenv` secrets, never `varlock reveal`
+  in agent sessions. Do not create, open, print, copy, or modify files under
+  `~/.agents/env/values/`.
 - Canonical contract docs: `/Users/kk/Code/kk-kb/docs/AGENT-SECRETS-VARLOCK.md`.

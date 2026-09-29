@@ -31,6 +31,8 @@ Closed-without-merge PRs are omitted.
 
 ### Changed
 
+- Loads local `next dev` through Varlock from `~/.agents/env/values/` so the
+  app-root `.env` symlink can be removed; Vercel build and deploy stay unwired
 - Makes Film Club create / join / submit / delete atomic so concurrent writes
   no longer clobber each other
   ([#28](https://github.com/WalksWithASwagger/wedges/pull/28)) — merged 2026-09-20

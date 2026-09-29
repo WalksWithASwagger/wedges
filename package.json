@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "varlock run --inject vars -- next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "env:validate": "varlock load --agent --show-all",
     "typecheck": "tsc --noEmit",
     "smoke": "node scripts/smoke.mjs",
     "verify:search": "node scripts/search-smoke.mjs",
@@ -36,7 +37,8 @@
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
     "tsx": "4.23.13",
-    "typescript": "^5"
+    "typescript": "^5",
+    "varlock": "^1.21.0"
   },
   "engines": {
     "node": ">=22"
