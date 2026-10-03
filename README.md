@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **This repository is archived (read-only) as of 2026-10-03.** The canonical source now lives in [`WalksWithASwagger/kk-kb`](https://github.com/WalksWithASwagger/kk-kb) at [`kk-kb/apps/wedges`](https://github.com/WalksWithASwagger/kk-kb/tree/main/apps/wedges). The live site (https://wedges.dev) deploys from kk-kb. Open issues, PRs and history stay here for reference. Make new changes in kk-kb.
+
 # Wedges
 
 **The agent edition of [Both Hands Full](https://www.bothhandsfull.com).** → [wedges.dev](https://wedges.dev)
